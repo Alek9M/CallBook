@@ -12,8 +12,8 @@ import SwiftData
 struct CallBookApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Callee.self,
-            Call.self
+            Call.self,
+            Callee.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

@@ -11,7 +11,7 @@ import SwiftData
 @Model
 final class Call {
     
-    private(set) var callee: Callee
+    private(set) var callee: Callee?
     
     private(set) var on = Date()
     var notes = ""

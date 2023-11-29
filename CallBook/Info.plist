@@ -6,5 +6,15 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>tel</string>
+    </array>
+    <key>NSOpenAccessClient</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>We need access to your documents folder to import databse.</string>
+
+
 </dict>
 </plist>
