@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		0CFDD47C2B17C8C000C99349 /* CallBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD47B2B17C8C000C99349 /* CallBookApp.swift */; };
 		0CFDD47E2B17C8C000C99349 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD47D2B17C8C000C99349 /* ContentView.swift */; };
-		0CFDD4802B17C8C000C99349 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD47F2B17C8C000C99349 /* Item.swift */; };
 		0CFDD4822B17C8C100C99349 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CFDD4812B17C8C100C99349 /* Assets.xcassets */; };
 		0CFDD4862B17C8C100C99349 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CFDD4852B17C8C100C99349 /* Preview Assets.xcassets */; };
 		0CFDD4912B17C8C100C99349 /* CallBookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD4902B17C8C100C99349 /* CallBookTests.swift */; };
 		0CFDD49B2B17C8C100C99349 /* CallBookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD49A2B17C8C100C99349 /* CallBookUITests.swift */; };
 		0CFDD49D2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD49C2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift */; };
+		0CFDD4AD2B17C93500C99349 /* Callee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD4AC2B17C93500C99349 /* Callee.swift */; };
+		0CFDD4AF2B17CB2A00C99349 /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD4AE2B17CB2A00C99349 /* Call.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +39,6 @@
 		0CFDD4782B17C8C000C99349 /* CallBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CFDD47B2B17C8C000C99349 /* CallBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBookApp.swift; sourceTree = "<group>"; };
 		0CFDD47D2B17C8C000C99349 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		0CFDD47F2B17C8C000C99349 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		0CFDD4812B17C8C100C99349 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0CFDD4832B17C8C100C99349 /* CallBook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallBook.entitlements; sourceTree = "<group>"; };
 		0CFDD4852B17C8C100C99349 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -48,6 +48,8 @@
 		0CFDD4962B17C8C100C99349 /* CallBookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallBookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CFDD49A2B17C8C100C99349 /* CallBookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBookUITests.swift; sourceTree = "<group>"; };
 		0CFDD49C2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBookUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		0CFDD4AC2B17C93500C99349 /* Callee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Callee.swift; sourceTree = "<group>"; };
+		0CFDD4AE2B17CB2A00C99349 /* Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,9 +100,9 @@
 		0CFDD47A2B17C8C000C99349 /* CallBook */ = {
 			isa = PBXGroup;
 			children = (
+				0CFDD4A92B17C90C00C99349 /* Persistence */,
 				0CFDD47B2B17C8C000C99349 /* CallBookApp.swift */,
 				0CFDD47D2B17C8C000C99349 /* ContentView.swift */,
-				0CFDD47F2B17C8C000C99349 /* Item.swift */,
 				0CFDD4812B17C8C100C99349 /* Assets.xcassets */,
 				0CFDD4832B17C8C100C99349 /* CallBook.entitlements */,
 				0CFDD4872B17C8C100C99349 /* Info.plist */,
@@ -132,6 +134,15 @@
 				0CFDD49C2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift */,
 			);
 			path = CallBookUITests;
+			sourceTree = "<group>";
+		};
+		0CFDD4A92B17C90C00C99349 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				0CFDD4AC2B17C93500C99349 /* Callee.swift */,
+				0CFDD4AE2B17CB2A00C99349 /* Call.swift */,
+			);
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,7 +276,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CFDD47E2B17C8C000C99349 /* ContentView.swift in Sources */,
-				0CFDD4802B17C8C000C99349 /* Item.swift in Sources */,
+				0CFDD4AF2B17CB2A00C99349 /* Call.swift in Sources */,
+				0CFDD4AD2B17C93500C99349 /* Callee.swift in Sources */,
 				0CFDD47C2B17C8C000C99349 /* CallBookApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
