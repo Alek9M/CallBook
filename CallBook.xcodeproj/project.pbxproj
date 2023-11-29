@@ -1,0 +1,630 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0CFDD47C2B17C8C000C99349 /* CallBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD47B2B17C8C000C99349 /* CallBookApp.swift */; };
+		0CFDD47E2B17C8C000C99349 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD47D2B17C8C000C99349 /* ContentView.swift */; };
+		0CFDD4802B17C8C000C99349 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD47F2B17C8C000C99349 /* Item.swift */; };
+		0CFDD4822B17C8C100C99349 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CFDD4812B17C8C100C99349 /* Assets.xcassets */; };
+		0CFDD4862B17C8C100C99349 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CFDD4852B17C8C100C99349 /* Preview Assets.xcassets */; };
+		0CFDD4912B17C8C100C99349 /* CallBookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD4902B17C8C100C99349 /* CallBookTests.swift */; };
+		0CFDD49B2B17C8C100C99349 /* CallBookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD49A2B17C8C100C99349 /* CallBookUITests.swift */; };
+		0CFDD49D2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD49C2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0CFDD48D2B17C8C100C99349 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0CFDD4702B17C8C000C99349 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0CFDD4772B17C8C000C99349;
+			remoteInfo = CallBook;
+		};
+		0CFDD4972B17C8C100C99349 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0CFDD4702B17C8C000C99349 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0CFDD4772B17C8C000C99349;
+			remoteInfo = CallBook;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0CFDD4782B17C8C000C99349 /* CallBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CFDD47B2B17C8C000C99349 /* CallBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBookApp.swift; sourceTree = "<group>"; };
+		0CFDD47D2B17C8C000C99349 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0CFDD47F2B17C8C000C99349 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		0CFDD4812B17C8C100C99349 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0CFDD4832B17C8C100C99349 /* CallBook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallBook.entitlements; sourceTree = "<group>"; };
+		0CFDD4852B17C8C100C99349 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0CFDD4872B17C8C100C99349 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0CFDD48C2B17C8C100C99349 /* CallBookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallBookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CFDD4902B17C8C100C99349 /* CallBookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBookTests.swift; sourceTree = "<group>"; };
+		0CFDD4962B17C8C100C99349 /* CallBookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CallBookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CFDD49A2B17C8C100C99349 /* CallBookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBookUITests.swift; sourceTree = "<group>"; };
+		0CFDD49C2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBookUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0CFDD4752B17C8C000C99349 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CFDD4892B17C8C100C99349 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CFDD4932B17C8C100C99349 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0CFDD46F2B17C8C000C99349 = {
+			isa = PBXGroup;
+			children = (
+				0CFDD47A2B17C8C000C99349 /* CallBook */,
+				0CFDD48F2B17C8C100C99349 /* CallBookTests */,
+				0CFDD4992B17C8C100C99349 /* CallBookUITests */,
+				0CFDD4792B17C8C000C99349 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0CFDD4792B17C8C000C99349 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0CFDD4782B17C8C000C99349 /* CallBook.app */,
+				0CFDD48C2B17C8C100C99349 /* CallBookTests.xctest */,
+				0CFDD4962B17C8C100C99349 /* CallBookUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0CFDD47A2B17C8C000C99349 /* CallBook */ = {
+			isa = PBXGroup;
+			children = (
+				0CFDD47B2B17C8C000C99349 /* CallBookApp.swift */,
+				0CFDD47D2B17C8C000C99349 /* ContentView.swift */,
+				0CFDD47F2B17C8C000C99349 /* Item.swift */,
+				0CFDD4812B17C8C100C99349 /* Assets.xcassets */,
+				0CFDD4832B17C8C100C99349 /* CallBook.entitlements */,
+				0CFDD4872B17C8C100C99349 /* Info.plist */,
+				0CFDD4842B17C8C100C99349 /* Preview Content */,
+			);
+			path = CallBook;
+			sourceTree = "<group>";
+		};
+		0CFDD4842B17C8C100C99349 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				0CFDD4852B17C8C100C99349 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0CFDD48F2B17C8C100C99349 /* CallBookTests */ = {
+			isa = PBXGroup;
+			children = (
+				0CFDD4902B17C8C100C99349 /* CallBookTests.swift */,
+			);
+			path = CallBookTests;
+			sourceTree = "<group>";
+		};
+		0CFDD4992B17C8C100C99349 /* CallBookUITests */ = {
+			isa = PBXGroup;
+			children = (
+				0CFDD49A2B17C8C100C99349 /* CallBookUITests.swift */,
+				0CFDD49C2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift */,
+			);
+			path = CallBookUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0CFDD4772B17C8C000C99349 /* CallBook */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CFDD4A02B17C8C100C99349 /* Build configuration list for PBXNativeTarget "CallBook" */;
+			buildPhases = (
+				0CFDD4742B17C8C000C99349 /* Sources */,
+				0CFDD4752B17C8C000C99349 /* Frameworks */,
+				0CFDD4762B17C8C000C99349 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CallBook;
+			productName = CallBook;
+			productReference = 0CFDD4782B17C8C000C99349 /* CallBook.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0CFDD48B2B17C8C100C99349 /* CallBookTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CFDD4A32B17C8C100C99349 /* Build configuration list for PBXNativeTarget "CallBookTests" */;
+			buildPhases = (
+				0CFDD4882B17C8C100C99349 /* Sources */,
+				0CFDD4892B17C8C100C99349 /* Frameworks */,
+				0CFDD48A2B17C8C100C99349 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0CFDD48E2B17C8C100C99349 /* PBXTargetDependency */,
+			);
+			name = CallBookTests;
+			productName = CallBookTests;
+			productReference = 0CFDD48C2B17C8C100C99349 /* CallBookTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0CFDD4952B17C8C100C99349 /* CallBookUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CFDD4A62B17C8C100C99349 /* Build configuration list for PBXNativeTarget "CallBookUITests" */;
+			buildPhases = (
+				0CFDD4922B17C8C100C99349 /* Sources */,
+				0CFDD4932B17C8C100C99349 /* Frameworks */,
+				0CFDD4942B17C8C100C99349 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0CFDD4982B17C8C100C99349 /* PBXTargetDependency */,
+			);
+			name = CallBookUITests;
+			productName = CallBookUITests;
+			productReference = 0CFDD4962B17C8C100C99349 /* CallBookUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0CFDD4702B17C8C000C99349 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					0CFDD4772B17C8C000C99349 = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+					0CFDD48B2B17C8C100C99349 = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = 0CFDD4772B17C8C000C99349;
+					};
+					0CFDD4952B17C8C100C99349 = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = 0CFDD4772B17C8C000C99349;
+					};
+				};
+			};
+			buildConfigurationList = 0CFDD4732B17C8C000C99349 /* Build configuration list for PBXProject "CallBook" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0CFDD46F2B17C8C000C99349;
+			productRefGroup = 0CFDD4792B17C8C000C99349 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0CFDD4772B17C8C000C99349 /* CallBook */,
+				0CFDD48B2B17C8C100C99349 /* CallBookTests */,
+				0CFDD4952B17C8C100C99349 /* CallBookUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0CFDD4762B17C8C000C99349 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CFDD4862B17C8C100C99349 /* Preview Assets.xcassets in Resources */,
+				0CFDD4822B17C8C100C99349 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CFDD48A2B17C8C100C99349 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CFDD4942B17C8C100C99349 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0CFDD4742B17C8C000C99349 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CFDD47E2B17C8C000C99349 /* ContentView.swift in Sources */,
+				0CFDD4802B17C8C000C99349 /* Item.swift in Sources */,
+				0CFDD47C2B17C8C000C99349 /* CallBookApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CFDD4882B17C8C100C99349 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CFDD4912B17C8C100C99349 /* CallBookTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CFDD4922B17C8C100C99349 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CFDD49D2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift in Sources */,
+				0CFDD49B2B17C8C100C99349 /* CallBookUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0CFDD48E2B17C8C100C99349 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0CFDD4772B17C8C000C99349 /* CallBook */;
+			targetProxy = 0CFDD48D2B17C8C100C99349 /* PBXContainerItemProxy */;
+		};
+		0CFDD4982B17C8C100C99349 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0CFDD4772B17C8C000C99349 /* CallBook */;
+			targetProxy = 0CFDD4972B17C8C100C99349 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0CFDD49E2B17C8C100C99349 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0CFDD49F2B17C8C100C99349 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		0CFDD4A12B17C8C100C99349 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CallBook/CallBook.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CallBook/Preview Content\"";
+				DEVELOPMENT_TEAM = CJT7A7FMC4;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CallBook/Info.plist;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akrp9.CallBook;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0CFDD4A22B17C8C100C99349 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CallBook/CallBook.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CallBook/Preview Content\"";
+				DEVELOPMENT_TEAM = CJT7A7FMC4;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CallBook/Info.plist;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akrp9.CallBook;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0CFDD4A42B17C8C100C99349 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CJT7A7FMC4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akrp9.CallBookTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CallBook.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CallBook";
+			};
+			name = Debug;
+		};
+		0CFDD4A52B17C8C100C99349 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CJT7A7FMC4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akrp9.CallBookTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CallBook.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CallBook";
+			};
+			name = Release;
+		};
+		0CFDD4A72B17C8C100C99349 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CJT7A7FMC4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akrp9.CallBookUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CallBook;
+			};
+			name = Debug;
+		};
+		0CFDD4A82B17C8C100C99349 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CJT7A7FMC4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akrp9.CallBookUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CallBook;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0CFDD4732B17C8C000C99349 /* Build configuration list for PBXProject "CallBook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CFDD49E2B17C8C100C99349 /* Debug */,
+				0CFDD49F2B17C8C100C99349 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0CFDD4A02B17C8C100C99349 /* Build configuration list for PBXNativeTarget "CallBook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CFDD4A12B17C8C100C99349 /* Debug */,
+				0CFDD4A22B17C8C100C99349 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0CFDD4A32B17C8C100C99349 /* Build configuration list for PBXNativeTarget "CallBookTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CFDD4A42B17C8C100C99349 /* Debug */,
+				0CFDD4A52B17C8C100C99349 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0CFDD4A62B17C8C100C99349 /* Build configuration list for PBXNativeTarget "CallBookUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CFDD4A72B17C8C100C99349 /* Debug */,
+				0CFDD4A82B17C8C100C99349 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0CFDD4702B17C8C000C99349 /* Project object */;
+}
