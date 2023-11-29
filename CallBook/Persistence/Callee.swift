@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Calee {
+final class Callee {
     private(set) var title: String = ""
     private(set) var phoneNumber: String?
     private(set) var email: String?
@@ -18,7 +18,7 @@ final class Calee {
     private(set) var origText: String = ""
     
     private(set) var called = false
-    private(set) var calls: [Call] = []
+    @Relationship(inverse: \Call.callee) private(set) var calls: [Call]? = []
     var notes = ""
     
     init(title: String, phoneNumber: String? = nil, email: String? = nil, web: URL? = nil, postcode: String? = nil, origText: String) {

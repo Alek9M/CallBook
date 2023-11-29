@@ -16,6 +16,7 @@
 		0CFDD49D2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD49C2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift */; };
 		0CFDD4AD2B17C93500C99349 /* Callee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD4AC2B17C93500C99349 /* Callee.swift */; };
 		0CFDD4AF2B17CB2A00C99349 /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD4AE2B17CB2A00C99349 /* Call.swift */; };
+		0CFDD4B12B17CF5E00C99349 /* CalleeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD4B02B17CF5E00C99349 /* CalleeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		0CFDD49C2B17C8C100C99349 /* CallBookUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBookUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0CFDD4AC2B17C93500C99349 /* Callee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Callee.swift; sourceTree = "<group>"; };
 		0CFDD4AE2B17CB2A00C99349 /* Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
+		0CFDD4B02B17CF5E00C99349 /* CalleeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalleeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				0CFDD4832B17C8C100C99349 /* CallBook.entitlements */,
 				0CFDD4872B17C8C100C99349 /* Info.plist */,
 				0CFDD4842B17C8C100C99349 /* Preview Content */,
+				0CFDD4B02B17CF5E00C99349 /* CalleeView.swift */,
 			);
 			path = CallBook;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				0CFDD47E2B17C8C000C99349 /* ContentView.swift in Sources */,
 				0CFDD4AF2B17CB2A00C99349 /* Call.swift in Sources */,
 				0CFDD4AD2B17C93500C99349 /* Callee.swift in Sources */,
+				0CFDD4B12B17CF5E00C99349 /* CalleeView.swift in Sources */,
 				0CFDD47C2B17C8C000C99349 /* CallBookApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
