@@ -45,7 +45,7 @@ final class Callee {
     }
     
     
-    init(title: String, phoneNumber: String? = nil, email: String? = nil, web: URL? = nil, postcode: String? = nil, address: String? = nil, origText: String, called: Bool = false, notes: String = "") {
+    init(title: String, phoneNumber: String? = nil, email: String? = nil, web: URL? = nil, postcode: String? = nil, address: String? = nil, origText: String, distance: Float? = nil) {
         self.title = title
         self.phoneNumber = phoneNumber
         self.email = email
@@ -53,21 +53,15 @@ final class Callee {
         self.postcode = postcode
         self.address = address
         self.origText = origText
-        self.called = called
         self.calls = []
         self.notes = notes
+        self.distance = distance
     }
     
     func add(email: String) {
         if self.email == nil {
             self.email = email
         }
-    }
-    
-    func realiseDistance() {
-        if let i = trimmedLines.firstIndex(where: { $0 == "Distance" } ) {
-               distance = Float(trimmedLines[i + 1].split(separator: " ")[0])
-           }
     }
     
 }

@@ -14,6 +14,7 @@ import UniformTypeIdentifiers
 struct CalleeView: View {
     
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.openURL) private var openURL
     
     @Bindable var callee: Callee
     @State private var region: MKCoordinateRegion? = nil
@@ -64,15 +65,20 @@ struct CalleeView: View {
                 }
                 if let phoneNumber = callee.phoneURL,
                    let phoneNum = callee.phoneNumber {
-                    Link(destination: phoneNumber) {
+//                    Link(destination: phoneNumber) {
+                    Button(action: { 
+                        let call = Call(callee: callee)
+                        modelContext.insert(call)
+                        openURL(phoneNumber)
+                    }) {
                         HStack {
                             Text(phoneNum)
                             Spacer()
                             Label("Call", systemImage: "phone")
-                                .onTapGesture {
-                                    let call = Call(callee: callee)
-                                    modelContext.insert(call)
-                                }
+//                                .onTapGesture {
+//                                    let call = Call(callee: callee)
+//                                    modelContext.insert(call)
+//                                }
                         }
                     }
                     .buttonStyle(.plain)
@@ -145,7 +151,7 @@ struct CalleeView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Callee.self, configurations: config)
     
-    let user = Callee(title: "Rahman & Co Solicitors Ltd", phoneNumber: "0208 809 4643", email: "info@rahmanlaw.com", web: URL(string: "www.rahmanlaw.com") , postcode: "N15 5BY", origText: "5\n                    Rahman & Co Solicitors Ltd\n                  \n                  \n                    \n                      Distance\n                      8.52 miles\n                    \n                  \n                \n                \n                  \n                  \n                    Address:\n                    \n                      33 West Green Road\n                      London\n                      N15 5BY\n                    \n                  \n                  \n                    Helpline:\n                    0208 809 4643\n                  \n                  \n                    \n                      Website:\n                      \n                        www.rahmanlaw.com\n                      \n                    \n                  \n                  \n                    Categories of law covered\n                    \n                      \n                        \n                          Modern slavery\n                        \n                      \n                        \n                          Debt\n                        \n                      \n                        \n                          Housing Loss Prevention Advice Service\n                        \n                      \n                        \n                          Family\n                        \n                      \n                        \n                          Immigration or asylum\n                        \n                      \n                        \n                          Housing")
+    let user = Callee(title: "Rahman & Co Solicitors Ltd", phoneNumber: "0208 809 4643", email: "info@rahmanlaw.com", web: URL(string: "www.rahmanlaw.com") , postcode: "N15 5BY", origText: "5\n                    Rahman & Co Solicitors Ltd\n                  \n                  \n                    \n                      Distance\n                      8.52 miles\n                    \n                  \n                \n                \n                  \n                  \n                    Address:\n                    \n                      33 West Green Road\n                      London\n                      N15 5BY\n                    \n                  \n                  \n                    Helpline:\n                    0208 809 4643\n                  \n                  \n                    \n                      Website:\n                      \n                        www.rahmanlaw.com\n                      \n                    \n                  \n                  \n                    Categories of law covered\n                    \n                      \n                        \n                          Modern slavery\n                        \n                      \n                        \n                          Debt\n                        \n                      \n                        \n                          Housing Loss Prevention Advice Service\n                        \n                      \n                        \n                          Family\n                        \n                      \n                        \n                          Immigration or asylum\n                        \n                      \n                        \n                          Housing", distance: 1.2)
     
     container.mainContext.insert(user)
     container.mainContext.insert(Call(callee: user))

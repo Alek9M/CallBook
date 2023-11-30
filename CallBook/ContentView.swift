@@ -15,6 +15,7 @@ struct RawData: Codable {
     let postcode: String?
     let title: String?
     let address: String?
+    let distance: Float?
 }
 
 struct ContentView: View {
@@ -60,11 +61,6 @@ struct ContentView: View {
                     try? modelContext.save()
                 } }
             }
-            .onAppear {
-                //                for callee in callees {
-                //                    callee.realiseDistance()
-                //                }
-            }
 #if os(macOS)
             .navigationSplitViewColumnWidth(min: 180, ideal: 200)
 #endif
@@ -102,7 +98,8 @@ struct ContentView: View {
                                                                 web: web,
                                                                 postcode: object.postcode,
                                                                 address: object.address,
-                                                                origText: object.origText)
+                                                                origText: object.origText,
+                                                                distance: object.distance)
                                             modelContext.insert(callee)
                                         }
                                     }
