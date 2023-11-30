@@ -69,7 +69,31 @@ struct ContentView: View {
                     NavigationLink {
                         CalleeView(callee: callee)
                     } label: {
-                        Text(callee.title)
+                        HStack {
+                            if (callee.calls?.count ?? 0 > 0) {
+                                Text(callee.calls?.count.description ?? "")
+                                    .bold()
+                            }
+                            Text(callee.title)
+                            if (search.isEmpty && callees.filter { $0.title == callee.title }.count > 1) {
+                                Spacer()
+                                Label("Has copies", systemImage: "line.3.horizontal.decrease")
+                                    .labelStyle(.iconOnly)
+                            }
+                        }
+                    }
+                    .contextMenu {
+                        Button(action: {
+                            copyToPasteboard(callee.title)
+                        }) {
+                            Label("Copy", systemImage: "doc.on.doc")
+                        }
+                        Button(action: {
+                            search = callee.title
+                            searchScope = .title
+                        }) {
+                            Label("Show similar", systemImage: "line.3.horizontal.decrease")
+                        }
                     }
                 }
                 .onDelete(perform: deleteItems)
@@ -153,6 +177,12 @@ struct ContentView: View {
         } detail: {
             Text("Select an item")
         }
+    }
+    
+    private func copyToPasteboard(_ textToCopy: String) {
+#if os(iOS)
+        UIPasteboard.general.string = textToCopy
+#endif
     }
     
     private func addItem() {

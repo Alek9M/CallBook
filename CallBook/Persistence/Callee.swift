@@ -12,7 +12,7 @@ import SwiftData
 final class Callee {
     private(set) var title: String = ""
     private(set) var phoneNumber: String?
-    private(set) var email: String?
+    private(set) var email: [String] = []
     private(set) var web: URL?
     private(set) var postcode: String?
     private(set) var address: String?
@@ -30,11 +30,8 @@ final class Callee {
         return nil
     }
     
-    var emailURL: URL? {
-        if let email = email {
-            return URL(string: "mailto:" + email)
-        }
-        return nil
+    var emailURL: [URL] {
+        email.compactMap { URL(string: "mailto:" + $0) }
     }
     
     var trimmedLines: [String] {
@@ -48,7 +45,9 @@ final class Callee {
     init(title: String, phoneNumber: String? = nil, email: String? = nil, web: URL? = nil, postcode: String? = nil, address: String? = nil, origText: String, distance: Float? = nil) {
         self.title = title
         self.phoneNumber = phoneNumber
-        self.email = email
+        if let email = email {
+            self.email = [email]
+        }
         self.web = web
         self.postcode = postcode
         self.address = address
@@ -59,9 +58,7 @@ final class Callee {
     }
     
     func add(email: String) {
-        if self.email == nil {
-            self.email = email
-        }
+        self.email.append(email)
     }
     
 }
