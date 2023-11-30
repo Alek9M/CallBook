@@ -18,6 +18,10 @@ struct RawData: Codable {
     let distance: Float?
 }
 
+enum SearchScope: String, CaseIterable {
+    case title, address, notes, phone
+}
+
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var callees: [Callee]
@@ -25,25 +29,43 @@ struct ContentView: View {
     @State private var isShowing = false
     @State private var showingAlert = false
     @State private var search = ""
+    @State private var searchScope = SearchScope.title
+    
+    private var searched: [Callee] {
+        if search.isEmpty {
+            return callees
+        }
+        return callees.filter {
+            switch searchScope {
+            case .title:
+                return $0.title.range(of: search, options: .caseInsensitive) != nil
+            case .address:
+                return $0.address?.range(of: search, options: .caseInsensitive) != nil
+            case .notes:
+                return $0.notes.range(of: search, options: .caseInsensitive) != nil
+            case .phone:
+                return $0.phoneNumber?.range(of: search, options: .caseInsensitive) != nil
+            }
+        }
+    }
+    
+    private var searchedAndSorted: [Callee] {
+        searched.sorted(by: {
+            if let distance1 = $0.distance,
+               let distance2 = $1.distance,
+               distance1 != distance2 {
+                
+                return distance1 < distance2
+                
+            }
+            return $0.title < $1.title
+        })
+    }
     
     var body: some View {
         NavigationSplitView {
             List {
-                ForEach(callees.filter { search.isEmpty ||
-                    $0.title.range(of: search, options: .caseInsensitive) != nil ||
-                    $0.address?.range(of: search, options: .caseInsensitive) != nil ||
-                    $0.notes.range(of: search, options: .caseInsensitive) != nil ||
-                    $0.phoneNumber?.range(of: search, options: .caseInsensitive) != nil
-                }.sorted(by: {
-                    if let distance1 = $0.distance,
-                       let distance2 = $1.distance,
-                       distance1 != distance2 {
-                        
-                        return distance1 < distance2
-                        
-                    }
-                    return $0.title < $1.title
-                })) { callee in
+                ForEach(searchedAndSorted) { callee in
                     NavigationLink {
                         CalleeView(callee: callee)
                     } label: {
@@ -53,6 +75,11 @@ struct ContentView: View {
                 .onDelete(perform: deleteItems)
             }
             .searchable(text: $search)
+            .searchScopes($searchScope) {
+                        ForEach(SearchScope.allCases, id: \.self) { scope in
+                            Text(scope.rawValue.capitalized)
+                        }
+                    }
             .alert("Everything is gonna be deleted. Are you sure you wanna proceed?", isPresented: $showingAlert) {
                 Button("Delete all", role: .destructive) { Task {
                     for callee in callees {
@@ -65,11 +92,11 @@ struct ContentView: View {
             .navigationSplitViewColumnWidth(min: 180, ideal: 200)
 #endif
             .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
+//#if os(iOS)
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    EditButton()
+//                }
+//#endif
                 ToolbarItem {
                     Button(action: addItem) {
                         Label("Add Database", systemImage: "plus")

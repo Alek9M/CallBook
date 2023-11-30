@@ -65,7 +65,6 @@ struct CalleeView: View {
                 }
                 if let phoneNumber = callee.phoneURL,
                    let phoneNum = callee.phoneNumber {
-//                    Link(destination: phoneNumber) {
                     Button(action: { 
                         let call = Call(callee: callee)
                         modelContext.insert(call)
@@ -75,10 +74,6 @@ struct CalleeView: View {
                             Text(phoneNum)
                             Spacer()
                             Label("Call", systemImage: "phone")
-//                                .onTapGesture {
-//                                    let call = Call(callee: callee)
-//                                    modelContext.insert(call)
-//                                }
                         }
                     }
                     .buttonStyle(.plain)
@@ -97,13 +92,16 @@ struct CalleeView: View {
                 TextEditor(text: $callee.notes)
             }
             
-            Section("Calls") {
-                List {
-                    ForEach(callee.calls?.sorted(by: { $0.on > $1.on }) ?? []) {  call in
-                        Text(call.on.formatted(date: .abbreviated, time: .shortened))
-                    }
-                    
-                    .onDelete(perform: deleteItems)
+            if let calls = callee.calls {
+                Section("Calls") {
+                    CallsViews(calls: calls)
+    //                List {
+    //                    ForEach(callee.calls?.sorted(by: { $0.on > $1.on }) ?? []) {  call in
+    //                        Text(call.on.formatted(date: .abbreviated, time: .shortened))
+    //                    }
+    //
+    //                    .onDelete(perform: deleteItems)
+    //                }
                 }
             }
         }
@@ -116,13 +114,13 @@ struct CalleeView: View {
         }
     }
     
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(callee.calls![index])
-            }
-        }
-    }
+//    private func deleteItems(offsets: IndexSet) {
+//        withAnimation {
+//            for index in offsets {
+//                modelContext.delete(callee.calls![index])
+//            }
+//        }
+//    }
     
     private func detail(_ title: String, data: String) -> some View {
         HStack {
