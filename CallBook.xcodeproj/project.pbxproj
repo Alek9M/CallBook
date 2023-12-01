@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C4CAD7D2B18E56300E2E004 /* CallsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4CAD7C2B18E56300E2E004 /* CallsViews.swift */; };
+		0C4CAD7F2B194F1800E2E004 /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4CAD7E2B194F1800E2E004 /* Letter.swift */; };
 		0CFDD47C2B17C8C000C99349 /* CallBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD47B2B17C8C000C99349 /* CallBookApp.swift */; };
 		0CFDD47E2B17C8C000C99349 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFDD47D2B17C8C000C99349 /* ContentView.swift */; };
 		0CFDD4822B17C8C100C99349 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CFDD4812B17C8C100C99349 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		0C4CAD7C2B18E56300E2E004 /* CallsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsViews.swift; sourceTree = "<group>"; };
+		0C4CAD7E2B194F1800E2E004 /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		0CFDD4782B17C8C000C99349 /* CallBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CFDD47B2B17C8C000C99349 /* CallBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBookApp.swift; sourceTree = "<group>"; };
 		0CFDD47D2B17C8C000C99349 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			children = (
 				0CFDD4AC2B17C93500C99349 /* Callee.swift */,
 				0CFDD4AE2B17CB2A00C99349 /* Call.swift */,
+				0C4CAD7E2B194F1800E2E004 /* Letter.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				0CFDD4AD2B17C93500C99349 /* Callee.swift in Sources */,
 				0CFDD4B12B17CF5E00C99349 /* CalleeView.swift in Sources */,
 				0CFDD47C2B17C8C000C99349 /* CallBookApp.swift in Sources */,
+				0C4CAD7F2B194F1800E2E004 /* Letter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,13 +452,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CallBook/CallBook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"CallBook/Preview Content\"";
 				DEVELOPMENT_TEAM = CJT7A7FMC4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CallBook/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -487,13 +492,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CallBook/CallBook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"CallBook/Preview Content\"";
 				DEVELOPMENT_TEAM = CJT7A7FMC4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CallBook/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

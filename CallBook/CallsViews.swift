@@ -16,7 +16,6 @@ struct CallsViews: View {
         ForEach(calls.sorted(by: { $0.on > $1.on })) {  call in
             Text(call.on.formatted(date: .abbreviated, time: .shortened))
         }
-        
         .onDelete(perform: deleteItems)
     }
     

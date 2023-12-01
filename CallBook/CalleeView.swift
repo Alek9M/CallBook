@@ -41,6 +41,16 @@ struct CalleeView: View {
     
     var body: some View {
         Form {
+            
+            Picker("Avaliability", selection: $callee.avaliability) {
+                Text("")
+                    .tag(nil as Callee.Avaliability?)
+                ForEach(Callee.Avaliability.allCases, id: \.rawValue) { avaliability in
+                    Text(avaliability.rawValue)
+//                        .tag(avaliability)
+                }
+            }
+            
             HStack {
                 
                 Text(lines)
@@ -65,7 +75,7 @@ struct CalleeView: View {
                 }
                 if let phoneNumber = callee.phoneURL,
                    let phoneNum = callee.phoneNumber {
-                    Button(action: { 
+                    Button(action: {
                         let call = Call(callee: callee)
                         modelContext.insert(call)
                         openURL(phoneNumber)
@@ -85,7 +95,35 @@ struct CalleeView: View {
                         }
                     }
                 }
+                if let web = callee.web {
+                    Link(destination: web) {
+                        Label("Website", systemImage: "network")
+                    }
+                }
+                //                if let contactUs =
                 
+            }
+            
+            Section("Emails") {
+                ForEach(callee.emails, id: \.self) { email in
+                    HStack {
+                        Text(email)
+                        if let url = URL(string: "mailto:" + email) {
+                            Spacer()
+                            Button(action: {
+                                openURL(url)
+                            }) {
+                                Label("Send", systemImage: "envelope")
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+                .onDelete(perform: deleteItems)
+                
+                Button(action: {}) {
+                    Label("Add email", systemImage: "plus")
+                }
             }
             
             Section("Notes") {
@@ -95,13 +133,13 @@ struct CalleeView: View {
             if let calls = callee.calls {
                 Section("Calls") {
                     CallsViews(calls: calls)
-    //                List {
-    //                    ForEach(callee.calls?.sorted(by: { $0.on > $1.on }) ?? []) {  call in
-    //                        Text(call.on.formatted(date: .abbreviated, time: .shortened))
-    //                    }
-    //
-    //                    .onDelete(perform: deleteItems)
-    //                }
+                    //                List {
+                    //                    ForEach(callee.calls?.sorted(by: { $0.on > $1.on }) ?? []) {  call in
+                    //                        Text(call.on.formatted(date: .abbreviated, time: .shortened))
+                    //                    }
+                    //
+                    //                    .onDelete(perform: deleteItems)
+                    //                }
                 }
             }
         }
@@ -114,13 +152,13 @@ struct CalleeView: View {
         }
     }
     
-//    private func deleteItems(offsets: IndexSet) {
-//        withAnimation {
-//            for index in offsets {
-//                modelContext.delete(callee.calls![index])
-//            }
-//        }
-//    }
+    //    private func deleteItems(offsets: IndexSet) {
+    //        withAnimation {
+    //            for index in offsets {
+    //                modelContext.delete(callee.calls![index])
+    //            }
+    //        }
+    //    }
     
     private func detail(_ title: String, data: String) -> some View {
         HStack {
@@ -138,6 +176,14 @@ struct CalleeView: View {
         }
     }
     
+    private func deleteItems(offsets: IndexSet) {
+        withAnimation {
+            for index in offsets {
+                callee.emails = callee.emails.filter { $0 != callee.emails[index] }
+            }
+        }
+    }
+    
     private func copyToPasteboard(_ textToCopy: String) {
 #if os(iOS)
         UIPasteboard.general.string = textToCopy
@@ -149,7 +195,7 @@ struct CalleeView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Callee.self, configurations: config)
     
-    let user = Callee(title: "Rahman & Co Solicitors Ltd", phoneNumber: "0208 809 4643", email: "info@rahmanlaw.com", web: URL(string: "www.rahmanlaw.com") , postcode: "N15 5BY", origText: "5\n                    Rahman & Co Solicitors Ltd\n                  \n                  \n                    \n                      Distance\n                      8.52 miles\n                    \n                  \n                \n                \n                  \n                  \n                    Address:\n                    \n                      33 West Green Road\n                      London\n                      N15 5BY\n                    \n                  \n                  \n                    Helpline:\n                    0208 809 4643\n                  \n                  \n                    \n                      Website:\n                      \n                        www.rahmanlaw.com\n                      \n                    \n                  \n                  \n                    Categories of law covered\n                    \n                      \n                        \n                          Modern slavery\n                        \n                      \n                        \n                          Debt\n                        \n                      \n                        \n                          Housing Loss Prevention Advice Service\n                        \n                      \n                        \n                          Family\n                        \n                      \n                        \n                          Immigration or asylum\n                        \n                      \n                        \n                          Housing", distance: 1.2)
+    let user = Callee(title: "Rahman & Co Solicitors Ltd", phoneNumber: "0208 809 4643", emails: ["info@rahmanlaw.com"], web: URL(string: "www.rahmanlaw.com") , postcode: "N15 5BY", origText: "5\n                    Rahman & Co Solicitors Ltd\n                  \n                  \n                    \n                      Distance\n                      8.52 miles\n                    \n                  \n                \n                \n                  \n                  \n                    Address:\n                    \n                      33 West Green Road\n                      London\n                      N15 5BY\n                    \n                  \n                  \n                    Helpline:\n                    0208 809 4643\n                  \n                  \n                    \n                      Website:\n                      \n                        www.rahmanlaw.com\n                      \n                    \n                  \n                  \n                    Categories of law covered\n                    \n                      \n                        \n                          Modern slavery\n                        \n                      \n                        \n                          Debt\n                        \n                      \n                        \n                          Housing Loss Prevention Advice Service\n                        \n                      \n                        \n                          Family\n                        \n                      \n                        \n                          Immigration or asylum\n                        \n                      \n                        \n                          Housing", distance: 1.2)
     
     container.mainContext.insert(user)
     container.mainContext.insert(Call(callee: user))

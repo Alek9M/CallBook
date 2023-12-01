@@ -11,7 +11,16 @@ import SwiftData
 @Model
 final class Call {
     
+    enum Status: String, CaseIterable, Codable {
+        case voicemail = "Voicemail 􀕼"
+        case noAnswer = "No answer"
+        case callLater = "Call them back"
+        case waitBack = "They will reach back"
+        case talked = "Answered"
+    }
+    
     private(set) var callee: Callee?
+    var status: Status? = nil
     
     private(set) var on = Date()
     var notes = ""

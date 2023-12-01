@@ -10,18 +10,29 @@ import SwiftData
 
 @Model
 final class Callee {
-    private(set) var title: String = ""
+    
+    enum Avaliability: String, CaseIterable, Codable {
+    case unavaliable = "􀊂"
+        case avaliable = "􀊀"
+        case busy = "At capacity"
+        case waitingList = "Queue"
+    }
+    
+    private(set) var title = ""
     private(set) var phoneNumber: String?
-    private(set) var email: [String] = []
+    var emails: [String] = []
     private(set) var web: URL?
     private(set) var postcode: String?
     private(set) var address: String?
-    private(set) var origText: String = ""
+    private(set) var origText = ""
     private(set) var distance: Float? = nil
+    var contactUsPage: String? = nil
+    var contactForm: String? = nil
+//    private(set) var letters: [Letter] = []
     
-    private(set) var called = false
     @Relationship(deleteRule: .cascade, inverse: \Call.callee) private(set) var calls: [Call]?
     var notes = ""
+    var avaliability: Avaliability? = nil
     
     var phoneURL: URL? {
         if let phoneNumber = phoneNumber {
@@ -30,8 +41,8 @@ final class Callee {
         return nil
     }
     
-    var emailURL: [URL] {
-        email.compactMap { URL(string: "mailto:" + $0) }
+    var emailURLs: [URL] {
+        emails.compactMap { URL(string: "mailto:" + $0) }
     }
     
     var trimmedLines: [String] {
@@ -41,24 +52,22 @@ final class Callee {
         }
     }
     
-    
-    init(title: String, phoneNumber: String? = nil, email: String? = nil, web: URL? = nil, postcode: String? = nil, address: String? = nil, origText: String, distance: Float? = nil) {
+    init(title: String = "", phoneNumber: String? = nil, emails: [String], web: URL? = nil, postcode: String? = nil, address: String? = nil, origText: String = "", distance: Float? = nil, contactUsPage: String? = nil, contactForm: String? = nil, calls: [Call]? = nil, notes: String = "") {
         self.title = title
         self.phoneNumber = phoneNumber
-        if let email = email {
-            self.email = [email]
-        }
+        self.emails = emails
         self.web = web
         self.postcode = postcode
         self.address = address
         self.origText = origText
-        self.calls = []
-        self.notes = notes
         self.distance = distance
+        self.contactUsPage = contactUsPage
+        self.contactForm = contactForm
+        self.calls = calls
     }
     
     func add(email: String) {
-        self.email.append(email)
+        self.emails.append(email)
     }
     
 }

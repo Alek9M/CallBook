@@ -16,6 +16,9 @@ struct RawData: Codable {
     let title: String?
     let address: String?
     let distance: Float?
+    let emails: [String]?
+    let contactUsPageUrl: String?
+    let contactFormUrl: String?
 }
 
 enum SearchScope: String, CaseIterable {
@@ -75,7 +78,7 @@ struct ContentView: View {
                                     .bold()
                             }
                             Text(callee.title)
-                            if (search.isEmpty && callees.filter { $0.title == callee.title }.count > 1) {
+                            if (multipleCopies(of: callee)) {
                                 Spacer()
                                 Label("Has copies", systemImage: "line.3.horizontal.decrease")
                                     .labelStyle(.iconOnly)
@@ -88,22 +91,25 @@ struct ContentView: View {
                         }) {
                             Label("Copy", systemImage: "doc.on.doc")
                         }
-                        Button(action: {
-                            search = callee.title
-                            searchScope = .title
-                        }) {
-                            Label("Show similar", systemImage: "line.3.horizontal.decrease")
+                        if (multipleCopies(of: callee)) {
+                            Button(action: {
+                                search = callee.title
+                                searchScope = .title
+                            }) {
+                                Label("Show similar", systemImage: "line.3.horizontal.decrease")
+                            }
                         }
+                        
                     }
                 }
                 .onDelete(perform: deleteItems)
             }
             .searchable(text: $search)
             .searchScopes($searchScope) {
-                        ForEach(SearchScope.allCases, id: \.self) { scope in
-                            Text(scope.rawValue.capitalized)
-                        }
-                    }
+                ForEach(SearchScope.allCases, id: \.self) { scope in
+                    Text(scope.rawValue.capitalized)
+                }
+            }
             .alert("Everything is gonna be deleted. Are you sure you wanna proceed?", isPresented: $showingAlert) {
                 Button("Delete all", role: .destructive) { Task {
                     for callee in callees {
@@ -116,11 +122,11 @@ struct ContentView: View {
             .navigationSplitViewColumnWidth(min: 180, ideal: 200)
 #endif
             .toolbar {
-//#if os(iOS)
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    EditButton()
-//                }
-//#endif
+                //#if os(iOS)
+                //                ToolbarItem(placement: .navigationBarTrailing) {
+                //                    EditButton()
+                //                }
+                //#endif
                 ToolbarItem {
                     Button(action: addItem) {
                         Label("Add Database", systemImage: "plus")
@@ -131,26 +137,37 @@ struct ContentView: View {
                         case .success(let Fileurl):
                             Task {
                                 do {
+                                    guard Fileurl.startAccessingSecurityScopedResource() else { // Notice this line right here
+                                         return
+                                    }
                                     // Read the contents of the file
                                     let data = try Data(contentsOf: Fileurl)
+                                    
+                                        Fileurl.stopAccessingSecurityScopedResource()
                                     
                                     // Decode the JSON data into an array of YourObjectType
                                     let decoder = JSONDecoder()
                                     let objects = try decoder.decode([RawData].self, from: data)
                                     
                                     for object in objects {
-                                        if !callees.contains(where: { $0.origText == object.origText }) {
+                                        if let _ = callees.first(where: { $0.origText == object.origText }) {
+//                                            excisting.emails = object.emails ?? []
+//                                            excisting.contactUsPage = object.contactUsPageUrl
+//                                            excisting.contactForm = object.contactFormUrl
+                                        } else {
                                             var web: URL? = nil
                                             if let w = object.web {
                                                 web = URL(string: w)
                                             }
                                             let callee = Callee(title: object.title ?? "404",
-                                                                phoneNumber: object.tel,
+                                                                phoneNumber: object.tel, emails: object.emails ?? [],
                                                                 web: web,
                                                                 postcode: object.postcode,
                                                                 address: object.address,
                                                                 origText: object.origText,
-                                                                distance: object.distance)
+                                                                distance: object.distance,
+                                                                contactUsPage: object.contactUsPageUrl,
+                                                                contactForm: object.contactFormUrl)
                                             modelContext.insert(callee)
                                         }
                                     }
@@ -185,23 +202,27 @@ struct ContentView: View {
 #endif
     }
     
+    private func multipleCopies(of callee: Callee) -> Bool {
+        search.isEmpty && callees.filter { $0.title == callee.title }.count > 1
+    }
+    
     private func addItem() {
-#if os(macOS)
-        let openPanel = NSOpenPanel()
-        openPanel.prompt = "Select"
-        openPanel.allowsMultipleSelection = false
-        openPanel.canChooseDirectories = true
-        openPanel.canCreateDirectories = false
-        openPanel.canChooseFiles = false
-        if openPanel.runModal() == NSApplication.ModalResponse.OK {
-            let result = openPanel.url // Pathname of the selected folder
-            
-            if let result = result {
-                let path = result.path
-                // Your code here
-            }
-        }
-#endif
+//#if os(macOS)
+//        let openPanel = NSOpenPanel()
+//        openPanel.prompt = "Select"
+//        openPanel.allowsMultipleSelection = false
+//        openPanel.canChooseDirectories = true
+//        openPanel.canCreateDirectories = false
+//        openPanel.canChooseFiles = false
+//        if openPanel.runModal() == NSApplication.ModalResponse.OK {
+//            let result = openPanel.url // Pathname of the selected folder
+//            
+//            if let result = result {
+//                let path = result.path
+//                // Your code here
+//            }
+//        }
+//#endif
         isShowing = true
         //        withAnimation {
         //            let newItem = Item(timestamp: Date())
