@@ -2,19 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>tel</string>
+	</array>
+	<key>NSOpenAccessClient</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>tel</string>
-    </array>
-    <key>NSOpenAccessClient</key>
-    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-    <key>NSDocumentsFolderUsageDescription</key>
-    <string>We need access to your documents folder to import databse.</string>
-
-
 </dict>
 </plist>

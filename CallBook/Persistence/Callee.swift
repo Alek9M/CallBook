@@ -16,6 +16,7 @@ final class Callee {
         case avaliable = "􀊀"
         case busy = "At capacity"
         case waitingList = "Queue"
+        case section95 = "Section 95 required"
     }
     
     private(set) var title = ""
@@ -52,7 +53,7 @@ final class Callee {
         }
     }
     
-    init(title: String = "", phoneNumber: String? = nil, emails: [String], web: URL? = nil, postcode: String? = nil, address: String? = nil, origText: String = "", distance: Float? = nil, contactUsPage: String? = nil, contactForm: String? = nil, calls: [Call]? = nil, notes: String = "") {
+    init(title: String = "", phoneNumber: String? = nil, emails: [String] = [], web: URL? = nil, postcode: String? = nil, address: String? = nil, origText: String = "", distance: Float? = nil, contactUsPage: String? = nil, contactForm: String? = nil, calls: [Call]? = nil, notes: String = "") {
         self.title = title
         self.phoneNumber = phoneNumber
         self.emails = emails
