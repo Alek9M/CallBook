@@ -105,6 +105,7 @@ struct ContentView: View {
                                     .tag(category)
                             }
                         }
+                        .pickerStyle(.menu)
                         
                         Picker("City", selection: $city) {
                             ForEach(Set(callees.map(\.city)).sorted(), id: \.self) { city in
@@ -112,6 +113,7 @@ struct ContentView: View {
                                     .tag(city)
                             }
                         }
+                        .pickerStyle(.menu)
                     }) {
                         Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
                     }
