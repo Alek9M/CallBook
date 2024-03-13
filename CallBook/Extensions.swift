@@ -11,4 +11,8 @@ extension String? {
     var orEmpty: String {
         return self ?? ""
     }
+    
+    var orNotFound: String {
+        return self ?? "404"
+    }
 }

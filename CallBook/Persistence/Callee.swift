@@ -26,12 +26,14 @@ final class Callee {
     private(set) var postcode: String?
     private(set) var address: String?
     private(set) var origText = ""
+    private(set) var city = ""
     private(set) var distance: Float? = nil
+    
     var contactUsPage: String? = nil
     var contactForm: String? = nil
 //    private(set) var letters: [Letter] = []
     
-    @Relationship(deleteRule: .cascade, inverse: \Call.callee) private(set) var calls: [Call]?
+    @Relationship(deleteRule: .cascade, inverse: \Call.callee) private(set) var calls: [Call]? = [Call]()
     var notes = ""
     var avaliability: Avaliability? = nil
     
@@ -53,7 +55,7 @@ final class Callee {
         }
     }
     
-    init(title: String = "", phoneNumber: String? = nil, emails: [String] = [], web: URL? = nil, postcode: String? = nil, address: String? = nil, origText: String = "", distance: Float? = nil, contactUsPage: String? = nil, contactForm: String? = nil, calls: [Call]? = nil, notes: String = "") {
+    init(title: String = "", phoneNumber: String? = nil, emails: [String] = [], web: URL? = nil, postcode: String? = nil, address: String? = nil, city: String? = "", origText: String = "", distance: Float? = nil, contactUsPage: String? = nil, contactForm: String? = nil, calls: [Call]? = nil, notes: String = "") {
         self.title = title
         self.phoneNumber = phoneNumber
         self.emails = emails
@@ -64,7 +66,12 @@ final class Callee {
         self.distance = distance
         self.contactUsPage = contactUsPage
         self.contactForm = contactForm
-        self.calls = calls
+//        self.calls = calls
+        self.city = city.orNotFound
+    }
+    
+    func addCategory(category: String) {
+        origText.append(category + "\n")
     }
     
     func add(email: String) {

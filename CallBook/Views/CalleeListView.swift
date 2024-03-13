@@ -113,40 +113,8 @@ struct CalleeListView: View {
             ToolbarItem {
                 Button(action: {
                     Task {
-                        do {
-                            let html = try String(contentsOf: URL(string: "https://www.gov.uk/government/publications/directory-of-legal-aid-providers")!)
-                            let doc: Document = try SwiftSoup.parse(html)
-                            let linkElements: Elements = try doc.select("a.govuk-link.gem-c-attachment__link")
-                            guard let fileLink = try linkElements.first()?.attr("href"),
-                                    let url = URL(string: fileLink) else { return }
-                            
-                            let (tmpUrl, response) = try await URLSession.shared.download(for: URLRequest(url: url))
-                            
-                            let fileManager = FileManager.default
-//                            let newURL = tmpUrl.deletingPathExtension().appendingPathExtension("xlsx")
-//                            try fileManager.moveItem(at: url, to: newURL)
-                            
-                            if fileManager.fileExists(atPath: tmpUrl.relativePath) {
-                                print("FILE AVAILABLE")
-                            } else {
-                                print("FILE NOT AVAILABLE")
-                            }
-                            
-                            guard let file = XLSXFile(filepath: tmpUrl.relativePath) else {
-                              fatalError("XLSX file at \(tmpUrl.relativePath) is corrupted or does not exist")
-                            }
-                            
-                            let worksheet = try file.parseWorksheet(at: "xl/worksheets/sheet1.xml")
-                            for row in worksheet.data?.rows ?? [] {
-                                
-                              for c in row.cells {
-                                print(c)
-                              }
-                            }
-                            
-                        } catch {
-                            print(error.localizedDescription)
-                        }
+                        let _ = try? await LegalAidSearch.load()
+//                        modelContext.insert()
                     }
                     
                 }) {
