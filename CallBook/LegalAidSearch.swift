@@ -60,7 +60,7 @@ class LegalAidSearch {
         return url
     }
     
-    private enum Columns: Int, CaseIterable {
+    enum Columns: Int, CaseIterable {
         case firmName
         case addressLine1
         case addressLine2
@@ -187,18 +187,18 @@ class LegalAidSearch {
     static func load() async throws -> [Callee] {
         
         //            TODO: uncomment for online
-        //        let html = try String(contentsOf: URL(string: "https://www.gov.uk/government/publications/directory-of-legal-aid-providers")!)
-        //        let doc: Document = try SwiftSoup.parse(html)
-        //        let linkElements: Elements = try doc.select("a.govuk-link.gem-c-attachment__link")
-        //        guard let fileLink = try linkElements.first()?.attr("href") else { throw LoadingError.href }
-        //        guard let url = URL(string: fileLink) else { throw URLError.compose }
-        //
-        //        let (tmpUrl, response) = try await URLSession.shared.download(for: URLRequest(url: url))
+                let html = try String(contentsOf: URL(string: "https://www.gov.uk/government/publications/directory-of-legal-aid-providers")!)
+                let doc: Document = try SwiftSoup.parse(html)
+                let linkElements: Elements = try doc.select("a.govuk-link.gem-c-attachment__link")
+                guard let fileLink = try linkElements.first()?.attr("href") else { throw LoadingError.href }
+                guard let url = URL(string: fileLink) else { throw URLError.compose }
+        
+                let (tmpUrl, response) = try await URLSession.shared.download(for: URLRequest(url: url))
         
         // TODO: comment for online
-        let rel = "/Users/m/Library/Containers/com.akrp9.CallBook/Data/tmp/CFNetworkDownload_B1Y9vv.tmp"
+//        let rel = "/Users/m/Library/Containers/com.akrp9.CallBook/Data/tmp/CFNetworkDownload_B1Y9vv.tmp"
         
-        guard let file = XLSXFile(filepath: rel) else {
+        guard let file = XLSXFile(filepath: tmpUrl.relativePath) else {
             throw LoadingError.xlsx
             //            fatalError("XLSX file at \(rel) is corrupted or does not exist")
         }

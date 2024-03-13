@@ -26,8 +26,15 @@ enum SearchScope: String, CaseIterable {
 }
 
 struct ContentView: View {
+    
+    static var descriptor: FetchDescriptor<Callee> {
+        var descriptor = FetchDescriptor<Callee>(sortBy: [SortDescriptor(\.city, order: .forward)])
+        descriptor.propertiesToFetch = [\.city]
+        return descriptor
+    }
+    
     @Environment(\.modelContext) private var modelContext
-//    @Query private var callees: [Callee]
+    @Query(ContentView.descriptor) private var callees: [Callee]
     
     @State private var isShowing = false
     @State private var showingAlert = false
@@ -35,6 +42,7 @@ struct ContentView: View {
     @State private var searchScope = SearchScope.title
     @State private var isSettingsShowing = false
     @State private var city = "London"
+    @State private var page = 0
     
 //    private var searched: [Callee] {
 //        if search.isEmpty {
@@ -56,11 +64,12 @@ struct ContentView: View {
 //    
     
     
-//    @State private var searchedAndSortedStat: [Callee] = []
+    @State private var category: String = "Immigration Asylum"
     
     var body: some View {
         NavigationSplitView {
-            CalleeListView(search: $search, searchScope: $searchScope, city: $city)
+            CalleeListView(search: $search, searchScope: $searchScope, city: city, category: category, page: $page)
+//            Text(" ")
             .searchable(text: $search)
             .searchScopes($searchScope) {
                 ForEach(SearchScope.allCases, id: \.self) { scope in
@@ -68,6 +77,7 @@ struct ContentView: View {
                         .tag(scope)
                 }
             }
+            
 //            .alert("Everything is gonna be deleted. Are you sure you wanna proceed?", isPresented: $showingAlert) {
 //                Button("Delete all", role: .destructive) { Task {
 //                    for callee in callees {
@@ -80,6 +90,32 @@ struct ContentView: View {
             .navigationSplitViewColumnWidth(min: 180, ideal: 200)
 #endif
             .toolbar {
+                ToolbarItem {
+    //                Picker("City", selection: $city) {
+    //                                ForEach(["", ""], id: \.self) {
+    //                                    Text($0)
+    //                                        .tag($0)
+    //                                }
+    //                            }
+    //                            .pickerStyle(.menu)
+                    Menu(content: {
+                        Picker("Category", selection: $category) {
+                            ForEach(LegalAidSearch.Columns.allCases[7 ..< LegalAidSearch.Columns.allCases.count], id: \.desc) { category in
+                                Text(category.desc)
+                                    .tag(category)
+                            }
+                        }
+                        
+                        Picker("City", selection: $city) {
+                            ForEach(Set(callees.map(\.city)).sorted(), id: \.self) { city in
+                                Text(city)
+                                    .tag(city)
+                            }
+                        }
+                    }) {
+                        Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
+                    }
+                }
                 //#if os(iOS)
                 //                ToolbarItem(placement: .navigationBarTrailing) {
                 //                    EditButton()
@@ -154,6 +190,9 @@ struct ContentView: View {
         } detail: {
             Text("Select an item")
         }
+//        .onAppear {
+//            try? modelContext.delete(model: Callee.self)
+//        }
     }
     
     private func addItem() {

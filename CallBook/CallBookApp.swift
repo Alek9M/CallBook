@@ -23,6 +23,18 @@ struct CallBookApp: App {
 //            fatalError("Could not create ModelContainer: \(error)")
 //        }
 //    }()
+    
+    let modelContainer: ModelContainer
+    let modelContext: ModelContext
+    
+    init() {
+            do {
+                modelContainer = try ModelContainer(for: Callee.self)
+                modelContext = modelContainer.mainContext
+            } catch {
+                fatalError("Could not initialize ModelContainer")
+            }
+        }
 
     var body: some Scene {
         WindowGroup {
@@ -30,6 +42,7 @@ struct CallBookApp: App {
         }
 //        .modelContainer(sharedModelContainer)
 //        .modelContainer(for: Callee.self, isAutosaveEnabled: false)
-        .modelContainer(for: Callee.self)
+        .modelContainer(modelContainer)
+        .modelContext(modelContext)
     }
 }

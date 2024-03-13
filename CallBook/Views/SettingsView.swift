@@ -46,7 +46,8 @@ struct SettingsView: View {
     
     private func load() {
         loading = true
-        Task {
+        let container = modelContext.container
+        Task.detached(priority: .background) { @MainActor in
             defer {
                 DispatchQueue.main.async {
                     loading = false
@@ -55,10 +56,12 @@ struct SettingsView: View {
             do {
                 let callees = try await LegalAidSearch.load()
                 
-                DispatchQueue.main.async {
-                    try? deleteAll()
-                    callees.forEach(modelContext.insert)
+//                container.deleteAllData()
+                try? container.mainContext.delete(model: Callee.self)
+                for callee in callees {
+                    container.mainContext.insert(callee)
                 }
+                    
             } catch {
                 self.error = error
             }
