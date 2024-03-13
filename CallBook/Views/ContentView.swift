@@ -33,7 +33,8 @@ struct ContentView: View {
     @State private var showingAlert = false
     @State private var search = ""
     @State private var searchScope = SearchScope.title
-    @State private var selfSearch = false
+    @State private var isSettingsShowing = false
+    @State private var city = "London"
     
 //    private var searched: [Callee] {
 //        if search.isEmpty {
@@ -59,11 +60,12 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            CalleeListView(search: search, searchScope: searchScope)
+            CalleeListView(search: $search, searchScope: $searchScope, city: $city)
             .searchable(text: $search)
             .searchScopes($searchScope) {
                 ForEach(SearchScope.allCases, id: \.self) { scope in
                     Text(scope.rawValue.capitalized)
+                        .tag(scope)
                 }
             }
 //            .alert("Everything is gonna be deleted. Are you sure you wanna proceed?", isPresented: $showingAlert) {
@@ -83,66 +85,71 @@ struct ContentView: View {
                 //                    EditButton()
                 //                }
                 //#endif
+//                ToolbarItem {
+//                    Button(action: addItem) {
+//                        Label("Add Database", systemImage: "plus")
+//                    }
+//                    .fileImporter(isPresented: $isShowing, allowedContentTypes: [.json]) { result in
+//                        
+////                        switch result {
+////                        case .success(let Fileurl):
+////                            Task {
+////                                do {
+////                                    guard Fileurl.startAccessingSecurityScopedResource() else { // Notice this line right here
+////                                         return
+////                                    }
+////                                    // Read the contents of the file
+////                                    let data = try Data(contentsOf: Fileurl)
+////                                    
+////                                        Fileurl.stopAccessingSecurityScopedResource()
+////                                    
+////                                    // Decode the JSON data into an array of YourObjectType
+////                                    let decoder = JSONDecoder()
+////                                    let objects = try decoder.decode([RawData].self, from: data)
+////                                    
+////                                    for object in objects {
+////                                        if let _ = callees.first(where: { $0.origText == object.origText }) {
+//////                                            excisting.emails = object.emails ?? []
+//////                                            excisting.contactUsPage = object.contactUsPageUrl
+//////                                            excisting.contactForm = object.contactFormUrl
+////                                        } else {
+////                                            var web: URL? = nil
+////                                            if let w = object.web {
+////                                                web = URL(string: w)
+////                                            }
+////                                            let callee = Callee(title: object.title ?? "404",
+////                                                                phoneNumber: object.tel, emails: object.emails ?? [],
+////                                                                web: web,
+////                                                                postcode: object.postcode,
+////                                                                address: object.address,
+////                                                                origText: object.origText,
+////                                                                distance: object.distance,
+////                                                                contactUsPage: object.contactUsPageUrl,
+////                                                                contactForm: object.contactFormUrl)
+////                                            modelContext.insert(callee)
+////                                        }
+////                                    }
+////                                    
+////                                } catch {
+////                                    // Handle any errors that occur during the process
+////                                    print("Error: \(error)")
+////                                }
+////                            }
+////                        case .failure(let error):
+////                            print(error)
+////                        }
+//                    }
+//                }
+                
                 ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Database", systemImage: "plus")
-                    }
-                    .fileImporter(isPresented: $isShowing, allowedContentTypes: [.json]) { result in
-                        
-//                        switch result {
-//                        case .success(let Fileurl):
-//                            Task {
-//                                do {
-//                                    guard Fileurl.startAccessingSecurityScopedResource() else { // Notice this line right here
-//                                         return
-//                                    }
-//                                    // Read the contents of the file
-//                                    let data = try Data(contentsOf: Fileurl)
-//                                    
-//                                        Fileurl.stopAccessingSecurityScopedResource()
-//                                    
-//                                    // Decode the JSON data into an array of YourObjectType
-//                                    let decoder = JSONDecoder()
-//                                    let objects = try decoder.decode([RawData].self, from: data)
-//                                    
-//                                    for object in objects {
-//                                        if let _ = callees.first(where: { $0.origText == object.origText }) {
-////                                            excisting.emails = object.emails ?? []
-////                                            excisting.contactUsPage = object.contactUsPageUrl
-////                                            excisting.contactForm = object.contactFormUrl
-//                                        } else {
-//                                            var web: URL? = nil
-//                                            if let w = object.web {
-//                                                web = URL(string: w)
-//                                            }
-//                                            let callee = Callee(title: object.title ?? "404",
-//                                                                phoneNumber: object.tel, emails: object.emails ?? [],
-//                                                                web: web,
-//                                                                postcode: object.postcode,
-//                                                                address: object.address,
-//                                                                origText: object.origText,
-//                                                                distance: object.distance,
-//                                                                contactUsPage: object.contactUsPageUrl,
-//                                                                contactForm: object.contactFormUrl)
-//                                            modelContext.insert(callee)
-//                                        }
-//                                    }
-//                                    
-//                                } catch {
-//                                    // Handle any errors that occur during the process
-//                                    print("Error: \(error)")
-//                                }
-//                            }
-//                        case .failure(let error):
-//                            print(error)
-//                        }
+                    Button(action: { isSettingsShowing.toggle() }) {
+                        Label("Settings", systemImage: "gear")
                     }
                 }
                 
-                
             }
-            .sheet(isPresented: $selfSearch, content: {
-                SearchView()
+            .sheet(isPresented: $isSettingsShowing, content: {
+                SettingsView()
             })
         } detail: {
             Text("Select an item")

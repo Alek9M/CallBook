@@ -69,6 +69,9 @@ struct CalleeView: View {
             }
             
             Section("Details") {
+                if !callee.city.isEmpty && callee.city != "404" {
+                    detail("City", data: callee.city)
+                }
                 if let postcode = callee.postcode {
                     detail("PostCode", data: postcode)
                 }

@@ -28,11 +28,20 @@ struct SettingsView: View {
                     Button(action: load, label: { Text("Yes") })
                     Button(action: { deleteAlert.toggle() }, label: { Text("No") })
                 })
+                Button(action: { try? deleteAll() }) {
+                    Label("Delete all", systemImage: "trash")
+//                    Label("Download", systemImage: "square.and.arrow.down")
+                }
+                
             }
         }
 #if os(macOS)
         .padding(/*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
 #endif
+    }
+    
+    private func deleteAll() throws {
+        try modelContext.delete(model: Callee.self)
     }
     
     private func load() {
@@ -45,7 +54,9 @@ struct SettingsView: View {
             }
             do {
                 let callees = try await LegalAidSearch.load()
+                
                 DispatchQueue.main.async {
+                    try? deleteAll()
                     callees.forEach(modelContext.insert)
                 }
             } catch {

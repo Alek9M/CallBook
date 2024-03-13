@@ -16,40 +16,34 @@ struct CalleeListView: View {
     
     @Query private var callees: [Callee]
     
-    @State private var searchedAndSortedStat: [Callee] = []
+    @Binding var search: String
+    @Binding var searchScope: SearchScope
+    @Binding var city: String
     
-//    @Binding var search: String
-//    @Binding var searchScope: SearchScope
-    
-    private var searchedAndSorted: [Callee] {
-        return callees
-        callees.sorted(by: {
-            if let distance1 = $0.distance,
-               let distance2 = $1.distance,
-               distance1 != distance2 {
-                
-                return distance1 < distance2
-                
-            }
-            return $0.title < $1.title
-        })
-    }
-    
-    init(search: String, searchScope: SearchScope) {
-//        _search = search
-//        _searchScope = searchScope
+    init(search: Binding<String>, searchScope: Binding<SearchScope>, city: Binding<String>) {
+        _search = search
+        _searchScope = searchScope
+        _city = city
         
-//        let searchString = search.wrappedValue
-        let scope = searchScope.rawValue
+        let searchString = search.wrappedValue
+        let scope = searchScope.wrappedValue.rawValue
+        let rawCity = city.wrappedValue
         
-        let scopes = SearchScope.allCases.map { $0.rawValue }.sorted()
+//        let scopes = SearchScope.allCases.map { $0.rawValue }.sorted()
         
         _callees = Query(filter: #Predicate {
-            if search.isEmpty {
-                return true
+            if searchString.isEmpty {
+                return true // $0.city == "" || $0.city == rawCity
             } else {
-                return $0.title.localizedStandardContains(search)
-            } 
+                if scope == "title" {
+                    return $0.title.localizedStandardContains(searchString)// && ($0.city.isEmpty || $0.city == rawCity)
+                } else if scope == "notes" {
+                    return $0.notes.localizedStandardContains(searchString)// && ($0.city.isEmpty || $0.city == rawCity)
+                } else {
+                    return $0.title.localizedStandardContains(searchString)// && ($0.city.isEmpty || $0.city == rawCity)
+                }
+                
+            }
 //            else if scope == scopes[1] {
 //                return $0.notes.localizedStandardContains(search)
 //            } else {
@@ -61,7 +55,7 @@ struct CalleeListView: View {
 //           } else if scope == scopes[2] {
 //               return $0.phoneNumber.orEmpty.localizedStandardContains(searchString)
 //           }
-        }, sort: [SortDescriptor(\Callee.distance, order: .forward), SortDescriptor(\Callee.title, comparator: .localizedStandard, order: .forward)])
+        }, sort: [/*SortDescriptor(\Callee.distance, order: .forward),*/ SortDescriptor(\Callee.title, comparator: .localizedStandard, order: .forward)])
     }
     
     var body: some View {
@@ -91,8 +85,8 @@ struct CalleeListView: View {
                     }
                     if (multipleCopies(of: callee)) {
                         Button(action: {
-//                            search = callee.title
-//                            searchScope = .title
+                            search = callee.title
+                            searchScope = .title
                         }) {
                             Label("Show similar", systemImage: "line.3.horizontal.decrease")
                         }
@@ -101,33 +95,45 @@ struct CalleeListView: View {
                 }
             }
             .onDelete(perform: deleteItems)
-            
-            //            .onAppear {
-            //                searchedAndSortedStat = searchedAndSorted
-            //            }
-            //            .onChange(of: search) {
-            //                searchedAndSortedStat = searchedAndSorted
-            //            }
         }
         .toolbar {
-            ToolbarItem {
-                Button(action: {
-                    Task {
-                        let _ = try? await LegalAidSearch.load()
-//                        modelContext.insert()
-                    }
-                    
-                }) {
-                    Label("Download", systemImage: "square.and.arrow.down")
-                }
-            }
+//            ToolbarItem {
+//                Button(action: {
+//                    Task {
+//                        let _ = try? await LegalAidSearch.load()
+////                        modelContext.insert()
+//                    }
+//                    
+//                }) {
+//                    Label("Download", systemImage: "square.and.arrow.down")
+//                }
+//            }
             
-            ToolbarItem(placement: .destructiveAction) {
-                Button(action: {
-//                        showingAlert = true
-                }, label: {
-                    Label("Delete all", systemImage: "trash")
-                })
+//            ToolbarItem(placement: .destructiveAction) {
+//                Button(action: {
+////                        showingAlert = true
+//                }, label: {
+//                    Label("Delete all", systemImage: "trash")
+//                })
+//            }
+            ToolbarItem {
+//                Picker("City", selection: $city) {
+//                                ForEach(["", ""], id: \.self) {
+//                                    Text($0)
+//                                        .tag($0)
+//                                }
+//                            }
+//                            .pickerStyle(.menu)
+                Menu(content: {
+                    Picker("City", selection: $city) {
+                        ForEach(Set(callees.map(\.city)).sorted(), id: \.self) { city in
+                            Text(city)
+                                .tag(city)
+                        }
+                    }
+                }) {
+                    Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
+                }
             }
         }
     }
