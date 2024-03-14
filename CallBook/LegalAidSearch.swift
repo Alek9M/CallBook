@@ -10,6 +10,9 @@ import SwiftSoup
 import CoreXLSX
 
 class LegalAidSearch {
+    
+    static private let expectedTotal = 3300
+    
     enum Category: String, CaseIterable, Identifiable {
         var id: String {
             rawValue

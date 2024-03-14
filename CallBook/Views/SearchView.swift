@@ -68,7 +68,7 @@ struct SearchView: View {
                                                     categoryList.append(try category.text())
                                                 }
                                                 
-                                                let callee = Callee(title: title ?? "404", phoneNumber: helpline, web: website, postcode: postalCode, address: address, origText: categoryList.joined(separator: "\n"), distance: distance)
+//                                                let callee = Callee(title: title ?? "404", phoneNumber: helpline, web: website, postcode: postalCode, address: address, origText: categoryList.joined(separator: "\n"), city: <#City#>, distance: distance)
                                             }
 //                                        } catch {
 //                                            print(error.localizedDescription.lowercased())
