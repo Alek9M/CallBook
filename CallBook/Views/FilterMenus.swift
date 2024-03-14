@@ -12,23 +12,23 @@ struct FilterMenus: View {
     
     @Environment(\.modelContext) private var modelContext
     
-    @Query private var cities: [City]
-    @Query private var categories: [LawCategory]
+    @Query private var cities: [Callee]
+    @Query private var categories: [Callee]
     
-    @Binding private var city: City?
-    @Binding private var category: LawCategory?
+    @Binding private var city: String
+    @Binding private var category: String
     
-    init(city: Binding<City?>, category: Binding<LawCategory?>) {
+    init(city: Binding<String>, category: Binding<String>) {
         
         _city = city
         _category = category
         
-        var citiesDescriptor = FetchDescriptor<City>(sortBy: [SortDescriptor(\.title, order: .forward)])
-        citiesDescriptor.propertiesToFetch = [\.title]
+        var citiesDescriptor = FetchDescriptor<Callee>(sortBy: [SortDescriptor(\.city, order: .forward)])
+        citiesDescriptor.propertiesToFetch = [\.city]
         _cities = Query(citiesDescriptor)
         
-        var categoriesDescriptor = FetchDescriptor<LawCategory>(sortBy: [SortDescriptor(\.title, order: .forward)])
-        categoriesDescriptor.propertiesToFetch = [\.title]
+        var categoriesDescriptor = FetchDescriptor<Callee>(sortBy: [SortDescriptor(\.origText, order: .forward)])
+        categoriesDescriptor.propertiesToFetch = [\.origText]
         _categories = Query(categoriesDescriptor)
     }
     
@@ -58,39 +58,39 @@ struct FilterMenus: View {
             Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
         }
         .onAppear {
-            deleteEmptyCities()
-            deleteEmptyCategories()
-            city = cities.first
-            category = categories.first
+//            deleteEmptyCities()
+//            deleteEmptyCategories()
+//            city = cities.first
+//            category = categories.first
         }
         
     }
     
-    private func deleteEmptyCategories() {
-        let categoryStrings = Set(categories.map(\.title)).sorted()
-        for categoryString in categoryStrings {
-            var categoriesFiltered = categories.filter { $0.title == categoryString }
-            for cat in categoriesFiltered {
-                if cat.callees?.count == 0 {
-                    modelContext.delete(cat)
-                }
-            }
-        }
-    }
-    
-    private func deleteEmptyCities() {
-        let cityStrings = Set(cities.map(\.title)).sorted()
-        for cityString in cityStrings {
-            var citiesFiltered = cities.filter { $0.title == cityString }
-            for cat in citiesFiltered {
-                if cat.callees?.count == 0 {
-                    modelContext.delete(cat)
-                }
-            }
-        }
-    }
+//    private func deleteEmptyCategories() {
+//        let categoryStrings = Set(categories.map(\.title)).sorted()
+//        for categoryString in categoryStrings {
+//            var categoriesFiltered = categories.filter { $0.title == categoryString }
+//            for cat in categoriesFiltered {
+//                if cat.callees?.count == 0 {
+//                    modelContext.delete(cat)
+//                }
+//            }
+//        }
+//    }
+//    
+//    private func deleteEmptyCities() {
+//        let cityStrings = Set(cities.map(\.title)).sorted()
+//        for cityString in cityStrings {
+//            var citiesFiltered = cities.filter { $0.title == cityString }
+//            for cat in citiesFiltered {
+//                if cat.callees?.count == 0 {
+//                    modelContext.delete(cat)
+//                }
+//            }
+//        }
+//    }
 }
 
-#Preview {
-    FilterMenus(city: .constant(City(title: "London")), category: .constant(LawCategory(title: "Asylum", columnNumber: 3)))
-}
+//#Preview {
+//    FilterMenus(city: .constant(City(title: "London")), category: .constant(LawCategory(title: "Asylum", columnNumber: 3)))
+//}

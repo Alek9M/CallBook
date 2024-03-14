@@ -69,6 +69,6 @@ struct CalleeRowView: View {
     }
 }
 
-#Preview {
-    CalleeRowView(callee: Callee(city: City(title: "London")))
-}
+//#Preview {
+//    CalleeRowView(callee: Callee(city: City(title: "London")))
+//}

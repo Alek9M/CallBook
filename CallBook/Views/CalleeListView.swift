@@ -40,7 +40,7 @@ struct CalleeListView: View {
         
         var predicate: Predicate<Callee> = #Predicate {
             if searchString.isEmpty {
-                return $0.city?.customID == cityID /*&& $0.categories != nil && $0.categories!.contains(where: { $0.customID == categoryID})*/
+                return $0.city == cityID /*&& $0.categories != nil && $0.categories!.contains(where: { $0.customID == categoryID})*/
             } else {
 //                if scope == "title" {
 //                    return $0.city?.customID == cityID /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.title.localizedStandardContains(searchString)
