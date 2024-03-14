@@ -16,10 +16,12 @@ struct CalleeView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.openURL) private var openURL
     
-    @Bindable var callee: Callee
+    var callee: Callee
     @State private var region: MKCoordinateRegion? = nil
     
-    @State var searchResults: [MKMapItem] = []
+    @State private var searchResults: [MKMapItem] = []
+    @State private var notes = ""
+    @State private var task: Task<(), Never>? = nil
     
     func search() {
         let request = MKLocalSearch.Request ()
@@ -42,19 +44,44 @@ struct CalleeView: View {
     var body: some View {
         Form {
             
-            Picker("Avaliability", selection: $callee.avaliability) {
-                Text("")
-                    .tag(nil as Callee.Avaliability?)
-                ForEach(Callee.Avaliability.allCases, id: \.rawValue) { avaliability in
-                    Text(avaliability.rawValue)
-//                        .tag(avaliability)
+            //            Picker("Avaliability", selection: $callee.avaliability) {
+            //                Text("")
+            //                    .tag(nil as Callee.Avaliability?)
+            //                ForEach(Callee.Avaliability.allCases, id: \.rawValue) { avaliability in
+            //                    Text(avaliability.rawValue)
+            ////                        .tag(avaliability)
+            //                }
+            //            }
+            Section("Categories") {
+                ForEach(callee.origText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .newlines), id: \.self) { categoryString in
+                    Text(categoryString)
+#if os(macOS)
+                        .padding(.leading)
+#endif
+                }
+            }
+            
+            Section("Address") {
+                if let address = callee.address {
+                    ForEach(address.components(separatedBy: .newlines), id: \.self) { addressLine in
+                        Text(addressLine)
+#if os(macOS)
+                            .padding(.leading)
+#endif
+                    }
+                }
+                if !callee.city.isEmpty && callee.city != "404" {
+                    detail("City", data: callee.city)
+                }
+                if let postcode = callee.postcode {
+                    detail("PostCode", data: postcode)
                 }
             }
             
             HStack {
                 
-                Text(lines)
-                    .selectionDisabled(false)
+                //                Text(lines)
+                //                    .selectionDisabled(false)
                 
                 if let region = region {
                     Map {
@@ -67,9 +94,6 @@ struct CalleeView: View {
             }
             
             Section("Details") {
-                if let postcode = callee.postcode {
-                    detail("PostCode", data: postcode)
-                }
                 if let distance = callee.distance {
                     detail("Distance", data: "\(distance) miles")
                 }
@@ -126,8 +150,9 @@ struct CalleeView: View {
                 }
             }
             
+            //            CalleeNote(callee: .constant(callee))
             Section("Notes") {
-                TextEditor(text: $callee.notes)
+                TextEditor(text: $notes)
             }
             
             if let calls = callee.calls {
@@ -147,8 +172,39 @@ struct CalleeView: View {
         .padding()
 #endif
         .navigationTitle(callee.title)
+        .onChange(of: callee) {
+            stopNoteTaking()
+            startNoteTaking()
+            notes = callee.notes
+        }
         .onAppear {
-            search()
+            //            search()
+            startNoteTaking()
+        }
+        .onDisappear {
+            stopNoteTaking()
+            callee.notes = notes
+        }
+    }
+    
+    private func stopNoteTaking() {
+        if let task = task {
+            task.cancel()
+            //            callee.notes = notes
+        }
+    }
+    
+    private func startNoteTaking() {
+        notes = callee.notes
+        task = Task.detached(priority: .background) {
+            while let task =  task,
+                  !task.isCancelled,
+                  let _ = try? await Task.sleep(nanoseconds: 3_000_000_000),
+                  callee.notes != notes {
+                DispatchQueue.main.async {
+                    callee.notes = notes
+                }
+            }
         }
     }
     

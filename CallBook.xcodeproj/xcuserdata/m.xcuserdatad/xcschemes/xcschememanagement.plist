@@ -7,7 +7,25 @@
 		<key>CallBook.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>CallBookDirectory.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>0C4CAD832B1960FD00E2E004</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0CFDD4772B17C8C000C99349</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

@@ -10,24 +10,39 @@ import SwiftData
 
 @main
 struct CallBookApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Call.self,
-            Callee.self
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+//    var sharedModelContainer: ModelContainer = {
+//        let schema = Schema([
+//            Call.self,
+//            Callee.self
+//        ])
+//        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+//
+//        do {
+//            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+//        } catch {
+//            fatalError("Could not create ModelContainer: \(error)")
+//        }
+//    }()
+    
+    let modelContainer: ModelContainer
+    let modelContext: ModelContext
+    
+    init() {
+            do {
+                modelContainer = try ModelContainer(for: Callee.self)
+                modelContext = modelContainer.mainContext
+            } catch {
+                fatalError("Could not initialize ModelContainer")
+            }
         }
-    }()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(sharedModelContainer)
+//        .modelContainer(sharedModelContainer)
+//        .modelContainer(for: Callee.self, isAutosaveEnabled: false)
+        .modelContainer(modelContainer)
+        .modelContext(modelContext)
     }
 }
