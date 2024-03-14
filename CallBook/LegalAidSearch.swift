@@ -171,7 +171,7 @@ class LegalAidSearch {
         //                for column in allColumns[0 ..< 7] {
         //                }
         
-        let address = row[Columns.addressLine1.rawValue].orEmpty + row[Columns.addressLine2.rawValue].orEmpty + row[Columns.addressLine3.rawValue].orEmpty
+        let address = [row[Columns.addressLine1.rawValue].orEmpty, row[Columns.addressLine2.rawValue], row[Columns.addressLine3.rawValue]].compactMap({$0}).joined(separator: "\n")
         
         let callee = Callee(title: row[Columns.firmName.rawValue].orNotFound, phoneNumber: row[Columns.telephoneNumber.rawValue], postcode: row[Columns.postcode.rawValue], address: address, city: row[Columns.city.rawValue])
         

@@ -67,7 +67,7 @@ final class Callee {
         self.contactUsPage = contactUsPage
         self.contactForm = contactForm
 //        self.calls = calls
-        self.city = city.orNotFound
+        self.city = city ?? ""
     }
     
     func addCategory(category: String) {

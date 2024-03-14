@@ -52,11 +52,36 @@ struct CalleeView: View {
             ////                        .tag(avaliability)
             //                }
             //            }
+            Section("Categories") {
+                ForEach(callee.origText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .newlines), id: \.self) { categoryString in
+                    Text(categoryString)
+#if os(macOS)
+                        .padding(.leading)
+#endif
+                }
+            }
+            
+            Section("Address") {
+                if let address = callee.address {
+                    ForEach(address.components(separatedBy: .newlines), id: \.self) { addressLine in
+                        Text(addressLine)
+#if os(macOS)
+                            .padding(.leading)
+#endif
+                    }
+                }
+                if !callee.city.isEmpty && callee.city != "404" {
+                    detail("City", data: callee.city)
+                }
+                if let postcode = callee.postcode {
+                    detail("PostCode", data: postcode)
+                }
+            }
             
             HStack {
                 
-                Text(lines)
-                    .selectionDisabled(false)
+                //                Text(lines)
+                //                    .selectionDisabled(false)
                 
                 if let region = region {
                     Map {
@@ -69,12 +94,6 @@ struct CalleeView: View {
             }
             
             Section("Details") {
-                if !callee.city.isEmpty && callee.city != "404" {
-                    detail("City", data: callee.city)
-                }
-                if let postcode = callee.postcode {
-                    detail("PostCode", data: postcode)
-                }
                 if let distance = callee.distance {
                     detail("Distance", data: "\(distance) miles")
                 }
@@ -171,7 +190,7 @@ struct CalleeView: View {
     private func stopNoteTaking() {
         if let task = task {
             task.cancel()
-//            callee.notes = notes
+            //            callee.notes = notes
         }
     }
     

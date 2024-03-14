@@ -52,8 +52,8 @@ struct CalleeListView: View {
         descriptor.propertiesToFetch = [\.title, \.city, \.origText]
         descriptor.relationshipKeyPathsForPrefetching = [\.calls]
         let pageSize = 30
-        descriptor.fetchLimit = pageSize
-        descriptor.fetchOffset = pageNumber * pageSize
+        descriptor.fetchLimit = pageSize + pageNumber * pageSize
+//        descriptor.fetchOffset = pageNumber * pageSize
         _callees = Query(descriptor)
         
         //        _callees = Query(filter: #Predicate {
@@ -87,7 +87,7 @@ struct CalleeListView: View {
     
     var body: some View {
         List {
-            ForEach(callees) { callee in
+            ForEach(Array(callees.enumerated()), id: \.offset) { index, callee in
                 NavigationLink {
                     CalleeView(callee: callee)
                 } label: {
@@ -97,6 +97,14 @@ struct CalleeListView: View {
                                 .bold()
                         }
                         Text(callee.title)
+                            .onAppear {
+                                if index == callees.count - 5 &&
+                                    (try? modelContext.fetchCount(FetchDescriptor<Callee>())) ?? 30 > callees.count {
+                                    withAnimation {
+                                        page += 1
+                                    }
+                                }
+                            }
                         if (multipleCopies(of: callee)) {
                             Spacer()
                             Label("Has copies", systemImage: "line.3.horizontal.decrease")
@@ -122,20 +130,20 @@ struct CalleeListView: View {
                 }
             }
             .onDelete(perform: deleteItems)
-            if (try? modelContext.fetchCount(FetchDescriptor<Callee>())) ?? 30 > callees.count {
-                Button(action: {withAnimation {
-                    //                            justUpdated = true
-                    page += 1
-                }}) {
-                    Text("More...")
-                }
-                .onAppear {
-                    withAnimation {
-                        //                            justUpdated = true
-                        page += 1
-                    }
-                }
-            }
+//            if (try? modelContext.fetchCount(FetchDescriptor<Callee>())) ?? 30 > callees.count {
+//                Button(action: {withAnimation {
+//                    //                            justUpdated = true
+//                    page += 1
+//                }}) {
+//                    Text("More...")
+//                }
+//                .onAppear {
+//                    withAnimation {
+//                        //                            justUpdated = true
+//                        page += 1
+//                    }
+//                }
+//            }
         }
         .toolbar {
             //            ToolbarItem {

@@ -18,7 +18,7 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section("Database") {
-                Text("Last refreshed: \(Date(), format: .dateTime)")
+//                Text("Last refreshed: \(Date(), format: .dateTime)")
                 Button(action: { deleteAlert.toggle() }) {
                     Label("Refresh", systemImage: "arrow.clockwise")
 //                    Label("Download", systemImage: "square.and.arrow.down")
