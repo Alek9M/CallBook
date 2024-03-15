@@ -18,7 +18,6 @@ struct SettingsView: View {
     @State private var deletionAlerts = false
     @Binding var cities: [String]?
     @Binding var city: String?
-    @State private var citySearch = ""
     
     @Binding var loaded: Double
     
@@ -62,6 +61,9 @@ struct SettingsView: View {
 #if os(macOS)
                 .padding()
 #endif
+                .sheet(item: $cities) { cities in
+                    CityPickerView(city: $city, cities: cities)
+                }
         
     }
     
@@ -76,6 +78,7 @@ struct SettingsView: View {
     
     private func load() {
         loaded = 1
+        LegalAidSearch.deleteRefreshDate()
         let container = modelContext.container
         let importer = BackgroundImporter(modelContainer: container)
         Task.detached(priority: .background) {
