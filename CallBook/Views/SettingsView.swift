@@ -18,6 +18,7 @@ struct SettingsView: View {
     @State private var deletionAlerts = false
     @State private var cities: [String]? = nil
     @State private var city: String? = nil
+    @State private var citySearch = ""
     
     @Binding var loaded: Double
     
@@ -29,7 +30,7 @@ struct SettingsView: View {
                     Label("Refresh", systemImage: "arrow.clockwise")
                     //                    Label("Download", systemImage: "square.and.arrow.down")
                 }
-                .alert("This action could take several minutes and will delete all the data. Continue?", isPresented: $refreshAlerts, actions: {
+                .alert("This action could take several minutes, please don't close the app during the refresh. It will also delete all the data. Continue?", isPresented: $refreshAlerts, actions: {
                     Button(action: { load() }, label: { Text("Yes") })
                     Button(action: { refreshAlerts.toggle() }, label: { Text("No") })
                 })
@@ -59,24 +60,10 @@ struct SettingsView: View {
             //            }
         }
 #if os(macOS)
-        .padding(/*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                .padding()
 #endif
         .sheet(item: $cities) { cities in
-            List(cities, id: \.self){ choice in
-                Button(action: {
-                    self.city = choice
-                    self.cities = nil
-                }) {
-                    Text(choice)
-                }
-#if os(macOS)
-                .buttonStyle(BorderlessButtonStyle.borderless)
-#endif
-            }
-#if os(macOS)
-        .padding(/*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-#endif
-            .navigationTitle("Select city to save")
+            CityPickerView(city: $city, cities: cities)
         }
     }
     
@@ -112,7 +99,9 @@ struct SettingsView: View {
                 
                 let cit = try await cityTask.value
                 
-                callees = callees.filter { $0.city == cit }
+                if !cit.isEmpty {
+                    callees = callees.filter { $0.city == cit }
+                }
                 //                container.deleteAllData()
                 //                try await container.mainContext.delete(model: Callee.self)
                 //                try await importer.backgroundInsert(callees, with: $loaded)

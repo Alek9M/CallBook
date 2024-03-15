@@ -232,6 +232,7 @@ class LegalAidSearch {
         //            TODO: uncomment for online
         let html = try String(contentsOf: URL(string: "https://www.gov.uk/government/publications/directory-of-legal-aid-providers")!)
         let doc: Document = try SwiftSoup.parse(html)
+        let date = try extractDate(from: doc)
         let linkElements: Elements = try doc.select("a.govuk-link.gem-c-attachment__link")
         guard let fileLink = try linkElements.first()?.attr("href") else { throw LoadingError.href }
         guard let url = URL(string: fileLink) else { throw URLError.compose }
@@ -239,7 +240,7 @@ class LegalAidSearch {
         let (tmpUrl, response) = try await URLSession.shared.download(for: URLRequest(url: url))
         showProgress(progress: progress, of: 200)
         // TODO: comment for online
-        //        let rel = "/Users/m/Library/Containers/com.akrp9.CallBook/Data/tmp/CFNetworkDownload_B1Y9vv.tmp"
+//                let rel = "/Users/m/Library/Containers/com.akrp9.CallBook/Data/tmp/CFNetworkDownload_B1Y9vv.tmp"
         
         guard let file = XLSXFile(filepath: tmpUrl.relativePath) else {
             throw LoadingError.xlsx
@@ -276,7 +277,6 @@ class LegalAidSearch {
             
         }
         
-        let date = try extractDate(from: doc)
         refreshCloudKey.saveToCloud(newValue: date)
         
         return db

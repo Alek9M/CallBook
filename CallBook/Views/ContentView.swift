@@ -41,7 +41,7 @@ struct ContentView: View {
     @State private var search = ""
     @State private var searchScope = SearchScope.title
     @State private var isSettingsShowing = false
-    @State private var city = "London" //"Aberdare" //"London"
+    @State private var city = "" //"Aberdare" //"London"
     @State private var page = 0
     @State private var loading = 0.0
     
@@ -78,6 +78,16 @@ struct ContentView: View {
                             .tag(scope)
                     }
                 }
+                .onAppear() {
+                    if city.isEmpty {
+                        if Set(callees.map(\.city)).count == 1 {
+                            city = callees.first?.city ?? ""
+                        } else {
+                            city = "London"
+                        }
+                    }
+                    
+                }
             
             //            .alert("Everything is gonna be deleted. Are you sure you wanna proceed?", isPresented: $showingAlert) {
             //                Button("Delete all", role: .destructive) { Task {
@@ -101,22 +111,16 @@ struct ContentView: View {
                             }
                             .pickerStyle(.menu)
                             
-                            if let set = Optional(Set(callees.map(\.city))) {
-                                if set.count > 1 {
-                                    Picker("City", selection: $city) {
-                                        ForEach(set.sorted(), id: \.self) { city in
-                                            Text(city)
-                                                .tag(city)
-                                        }
+                            if let set = Optional(Set(callees.map(\.city))),
+                                set.count > 1 {
+                                Picker("City", selection: $city) {
+                                    ForEach(set.sorted(), id: \.self) { city in
+                                        Text(city)
+                                            .tag(city)
                                     }
-                                    .pickerStyle(.menu)
                                 }
-                                else {
-                                    EmptyView()
-                                        .onAppear() {
-                                            city = set.first.orEmpty
-                                        }
-                                }
+                                .pickerStyle(.menu)
+//                                }
                             }
                             
                         }) {
