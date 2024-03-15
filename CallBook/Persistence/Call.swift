@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Call {
+final class Call: ObservableObject {
     
     enum Status: String, CaseIterable, Codable {
         case voicemail = "Voicemail 􀕼"
@@ -21,6 +21,7 @@ final class Call {
     
     private(set) var callee: Callee?
     var status: Status? = nil
+    var reached: Bool? = nil
     
     private(set) var on = Date()
     var notes = ""
