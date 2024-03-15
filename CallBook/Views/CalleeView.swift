@@ -96,6 +96,16 @@ struct CalleeView: View {
                     }
                 }
                 .frame(height: 300)
+                .onTapGesture {
+                    if let item = searchResults.first,
+                       let url = URL(string: "maps://?saddr=&daddr=\(item.placemark.coordinate.latitude),\(item.placemark.coordinate.longitude)") {
+//                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        openURL(url)
+                    }
+//                    if UIApplication.shared.canOpenURL(url!) {
+//                          UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+//                    }
+                }
                 //                }
             }
             
