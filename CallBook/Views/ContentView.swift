@@ -41,7 +41,7 @@ struct ContentView: View {
     @State private var search = ""
     @State private var searchScope = SearchScope.title
     @State private var isSettingsShowing = false
-    @State private var city = "London"
+    @State private var city = "Aberdare" //"London"
     @State private var page = 0
     @State private var loading = 0.0
     
@@ -69,7 +69,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            CalleeListView(search: $search, searchScope: $searchScope, city: city, category: category, page: $page)
+            CalleeListView(search: $search, searchScope: $searchScope, city: city, category: category, page: $page, loading: loading)
             //            Text(" ")
                 .searchable(text: $search)
                 .searchScopes($searchScope) {

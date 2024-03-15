@@ -119,7 +119,7 @@ struct SettingsView: View {
             inserting = true
 //            let modelContext = ModelContext(modelContainer)
             //                     try await Task.sleep(for: .milliseconds(1))
-            print(callee.title)
+            print("\n info:" + callee.title)
             modelContext.insert(callee)
 //            try modelContext.save()
             inserting = false

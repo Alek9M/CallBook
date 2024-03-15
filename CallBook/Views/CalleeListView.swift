@@ -21,7 +21,7 @@ struct CalleeListView: View {
     @Binding var page: Int
     var category: String
     
-    init(search: Binding<String>, searchScope: Binding<SearchScope>, city: String, category: String, page: Binding<Int>) {
+    init(search: Binding<String>, searchScope: Binding<SearchScope>, city: String, category: String, page: Binding<Int>, loading: Double) {
         _search = search
         _searchScope = searchScope
         _page = page
@@ -38,7 +38,9 @@ struct CalleeListView: View {
         let cityID = city
         let categoryID = category
         
-        var predicate: Predicate<Callee> = #Predicate {
+        let isLoading = loading != 0
+        
+        var predicate: Predicate<Callee>? = isLoading ? nil : #Predicate {
             if searchString.isEmpty {
                 return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories != nil && $0.categories!.contains(where: { $0.customID == categoryID})*/
             } else {
@@ -56,8 +58,8 @@ struct CalleeListView: View {
         var descriptor = FetchDescriptor<Callee>(
             predicate: predicate,
             sortBy: [SortDescriptor(\.title, order: .forward)])
-        descriptor.propertiesToFetch = [\.title, \.origText]
-        descriptor.relationshipKeyPathsForPrefetching = [\.calls]
+        descriptor.propertiesToFetch = isLoading ? [\.title] : [\.title, \.origText]
+        descriptor.relationshipKeyPathsForPrefetching = isLoading ? [] : [\.calls]
         let pageSize = 30
         descriptor.fetchLimit = pageSize + pageNumber * pageSize
 //        descriptor.fetchOffset = pageNumber * pageSize
