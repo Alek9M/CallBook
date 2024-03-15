@@ -12,3 +12,14 @@ extension String? {
         "404"
     }
 }
+
+extension String {
+    
+    public var fromCloud: String {
+        NSUbiquitousKeyValueStore.default.string(forKey: self) ?? ""
+    }
+    
+    public func saveToCloud(newValue: String) {
+        NSUbiquitousKeyValueStore.default.set(newValue, forKey: self)
+    }
+}

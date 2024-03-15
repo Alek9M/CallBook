@@ -57,8 +57,8 @@ struct CalleeListView: View {
         var descriptor = FetchDescriptor<Callee>(
             predicate: predicate,
             sortBy: [SortDescriptor(\.title, order: .forward)])
-//        descriptor.propertiesToFetch = [\.title, \.origText]
-//        descriptor.relationshipKeyPathsForPrefetching = [\.calls]
+        descriptor.propertiesToFetch = [\.title, \.origText]
+        descriptor.relationshipKeyPathsForPrefetching = [\.calls]
         let pageSize = 30
         descriptor.fetchLimit = pageSize + pageNumber * pageSize
 //        descriptor.fetchOffset = pageNumber * pageSize

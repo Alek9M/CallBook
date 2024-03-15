@@ -12,35 +12,35 @@ struct SettingsView: View {
     
     @Environment(\.modelContext) private var modelContext
     
-    @State var error: Error? = nil
-    @State var loading = false
-    @State var loaded = 0.0
-    @State var refreshAlerts = false
-    @State var deletionAlerts = false
+    @State private var error: Error? = nil
+    @State private var refreshAlerts = false
+    @State private var deletionAlerts = false
+    
+    @Binding var loaded: Double
     
     var body: some View {
         Form {
             Section("Database") {
-//                Text("Last refreshed: \(Date(), format: .dateTime)")
+                Text("Last refreshed: \(LegalAidSearch.lastRefresh)")
                 Button(action: { refreshAlerts.toggle() }) {
                     Label("Refresh", systemImage: "arrow.clockwise")
 //                    Label("Download", systemImage: "square.and.arrow.down")
                 }
-                .alert("This action will delete all the data. Continue?", isPresented: $refreshAlerts, actions: {
-                    Button(action: load, label: { Text("Yes") })
+                .alert("This action could take several minutes and will delete all the data. Continue?", isPresented: $refreshAlerts, actions: {
+                    Button(action: { load() }, label: { Text("Yes") })
                     Button(action: { refreshAlerts.toggle() }, label: { Text("No") })
                 })
                 Button(action: { deletionAlerts.toggle() }) {
                     Label("Delete all", systemImage: "trash")
 //                    Label("Download", systemImage: "square.and.arrow.down")
                 }
-                .alert("This action will delete all the data. Continue?", isPresented: $refreshAlerts, actions: {
-                    Button(action: deleteAll, label: { Text("Yes") })
+                .alert("This action will delete all the data. Continue?", isPresented: $deletionAlerts, actions: {
+                    Button(action: { deleteAll() }, label: { Text("Yes") })
                     Button(action: { deletionAlerts.toggle() }, label: { Text("No") })
                 })
                 
             }
-            .disabled(loading)
+            .disabled(loaded != 0)
 //            .onAppear {
 //                do {
 //                    print(try modelContext.fetchCount(FetchDescriptor<Callee>()))
@@ -63,29 +63,35 @@ struct SettingsView: View {
     private func deleteAll() {
         do {
             try modelContext.delete(model: Callee.self)
+            LegalAidSearch.deleteRefreshDate()
         } catch {
             self.error = error
         }
     }
     
     private func load() {
-        loading = true
+        loaded = 1
         let container = modelContext.container
-        let importer = BackgroundImporter(modelContainer: modelContext.container)
-        Task.detached(priority: .background) { @MainActor in
+//        let importer = BackgroundImporter(modelContainer: modelContext.container)
+        Task.detached(priority: .background) {
             defer {
                 DispatchQueue.main.async {
-                    loading = false
+                    loaded = 0
                 }
             }
             do {
-                let callees = try await LegalAidSearch.load()
+                let callees = try await LegalAidSearch.load(with: $loaded)
                 
 //                container.deleteAllData()
-                try container.mainContext.delete(model: Callee.self)
+                try await container.mainContext.delete(model: Callee.self)
 //                try await importer.backgroundInsert(callees)
-                for callee in callees {
-                    container.mainContext.insert(callee)
+                for (index, callee) in callees.enumerated() {
+                    await container.mainContext.insert(callee)
+                    if index % 500 == 0 {
+                        try modelContext.save()
+                        try await Task.sleep(for: .milliseconds(1))
+                        loaded += 100
+                    }
                 }
                     
             } catch {
@@ -120,6 +126,6 @@ struct SettingsView: View {
     }
 }
 
-#Preview {
-    SettingsView()
-}
+//#Preview {
+//    SettingsView()
+//}

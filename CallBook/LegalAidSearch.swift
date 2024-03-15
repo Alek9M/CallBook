@@ -8,10 +8,17 @@
 import Foundation
 import SwiftSoup
 import CoreXLSX
+import SwiftUI
 
 class LegalAidSearch {
     
     static private let expectedTotal = 3300
+    
+    static private let refreshCloudKey = "lastRefresh"
+    
+    static var lastRefresh: String {
+        refreshCloudKey.fromCloud
+    }
     
     enum Category: String, CaseIterable, Identifiable {
         var id: String {
@@ -146,6 +153,7 @@ class LegalAidSearch {
     enum LoadingError: Error {
         case xlsx
         case href
+        case date
     }
     
     private static func getRefreshDate(from worksheet: Worksheet, with sharedStrings: SharedStrings) throws -> Date {
@@ -164,6 +172,24 @@ class LegalAidSearch {
             let date = dateFormatter.date(from: String(sureRow.split(separator: " ")[2])) else { throw LoadingError.xlsx }
         
         return date
+    }
+    
+    static private func extractDate(from doc: Document) throws -> String {
+        let metadataElement: Elements = try doc.getElementsByClass("gem-c-metadata__definition")
+        var dateString = try metadataElement.last()?.text()
+        dateString = dateString?.components(separatedBy: " ")[0 ..< 3].joined(separator: " ")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        if let dateString = dateString,
+            let date = dateFormatter.date(from: dateString) {
+            return dateString
+        } else {
+            throw LoadingError.date
+        }
+    }
+    
+    static func deleteRefreshDate() {
+        refreshCloudKey.saveToCloud(newValue: "")
     }
     
     static private func process(_ row: [String?]) -> Callee {
@@ -187,7 +213,15 @@ class LegalAidSearch {
         return callee
     }
     
-    static func load() async throws -> [Callee] {
+    static private func showProgress(progress: Binding<Double>?, of achievment: Double) {
+        if let progress = progress {
+            DispatchQueue.main.async {
+                progress.wrappedValue += achievment
+            }
+        }
+    }
+    
+    static func load(with progress: Binding<Double>? = nil) async throws -> [Callee] {
         
         //            TODO: uncomment for online
         let html = try String(contentsOf: URL(string: "https://www.gov.uk/government/publications/directory-of-legal-aid-providers")!)
@@ -195,9 +229,9 @@ class LegalAidSearch {
         let linkElements: Elements = try doc.select("a.govuk-link.gem-c-attachment__link")
         guard let fileLink = try linkElements.first()?.attr("href") else { throw LoadingError.href }
         guard let url = URL(string: fileLink) else { throw URLError.compose }
-        
+        showProgress(progress: progress, of: 100)
         let (tmpUrl, response) = try await URLSession.shared.download(for: URLRequest(url: url))
-        
+        showProgress(progress: progress, of: 200)
         // TODO: comment for online
         //        let rel = "/Users/m/Library/Containers/com.akrp9.CallBook/Data/tmp/CFNetworkDownload_B1Y9vv.tmp"
         
@@ -205,7 +239,7 @@ class LegalAidSearch {
             throw LoadingError.xlsx
             //            fatalError("XLSX file at \(rel) is corrupted or does not exist")
         }
-        
+        showProgress(progress: progress, of: 400)
         let worksheet = try file.parseWorksheet(at: "xl/worksheets/sheet1.xml")
         
         guard let sharedStrings = try file.parseSharedStrings() else {
@@ -229,8 +263,12 @@ class LegalAidSearch {
             
             db.append(callee)
             print(rowNumber)
+            showProgress(progress: progress, of: 1)
             
         }
+        
+        let date = try extractDate(from: doc)
+        refreshCloudKey.saveToCloud(newValue: date)
         
         return db
     }

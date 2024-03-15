@@ -43,25 +43,26 @@ struct ContentView: View {
     @State private var isSettingsShowing = false
     @State private var city = "London"
     @State private var page = 0
+    @State private var loading = 0.0
     
-//    private var searched: [Callee] {
-//        if search.isEmpty {
-//            return callees
-//        }
-//        return callees.filter {
-//            switch searchScope {
-//            case .title:
-//                return $0.title.range(of: search, options: .caseInsensitive) != nil
-//            case .address:
-//                return $0.address?.range(of: search, options: .caseInsensitive) != nil
-//            case .notes:
-//                return $0.notes.range(of: search, options: .caseInsensitive) != nil
-//            case .phone:
-//                return $0.phoneNumber?.range(of: search, options: .caseInsensitive) != nil
-//            }
-//        }
-//    }
-//    
+    //    private var searched: [Callee] {
+    //        if search.isEmpty {
+    //            return callees
+    //        }
+    //        return callees.filter {
+    //            switch searchScope {
+    //            case .title:
+    //                return $0.title.range(of: search, options: .caseInsensitive) != nil
+    //            case .address:
+    //                return $0.address?.range(of: search, options: .caseInsensitive) != nil
+    //            case .notes:
+    //                return $0.notes.range(of: search, options: .caseInsensitive) != nil
+    //            case .phone:
+    //                return $0.phoneNumber?.range(of: search, options: .caseInsensitive) != nil
+    //            }
+    //        }
+    //    }
+    //
     
     
     @State private var category: String = "Immigration Asylum"
@@ -69,151 +70,92 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             CalleeListView(search: $search, searchScope: $searchScope, city: city, category: category, page: $page)
-//            Text(" ")
-            .searchable(text: $search)
-            .searchScopes($searchScope) {
-                ForEach(SearchScope.allCases, id: \.self) { scope in
-                    Text(scope.rawValue.capitalized)
-                        .tag(scope)
+            //            Text(" ")
+                .searchable(text: $search)
+                .searchScopes($searchScope) {
+                    ForEach(SearchScope.allCases, id: \.self) { scope in
+                        Text(scope.rawValue.capitalized)
+                            .tag(scope)
+                    }
                 }
-            }
             
-//            .alert("Everything is gonna be deleted. Are you sure you wanna proceed?", isPresented: $showingAlert) {
-//                Button("Delete all", role: .destructive) { Task {
-//                    for callee in callees {
-//                        modelContext.delete(callee)
-//                    }
-//                    try? modelContext.save()
-//                } }
-//            }
+            //            .alert("Everything is gonna be deleted. Are you sure you wanna proceed?", isPresented: $showingAlert) {
+            //                Button("Delete all", role: .destructive) { Task {
+            //                    for callee in callees {
+            //                        modelContext.delete(callee)
+            //                    }
+            //                    try? modelContext.save()
+            //                } }
+            //            }
 #if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
+                .navigationSplitViewColumnWidth(min: 180, ideal: 200)
 #endif
-            .toolbar {
-                ToolbarItem {
-    //                Picker("City", selection: $city) {
-    //                                ForEach(["", ""], id: \.self) {
-    //                                    Text($0)
-    //                                        .tag($0)
-    //                                }
-    //                            }
-    //                            .pickerStyle(.menu)
-                    Menu(content: {
-                        Picker("Category", selection: $category) {
-                            ForEach(LegalAidSearch.Columns.allCases[7 ..< LegalAidSearch.Columns.allCases.count], id: \.desc) { category in
-                                Text(category.desc)
-                                    .tag(category)
+                .toolbar {
+                    ToolbarItem {
+                        Menu(content: {
+                            Picker("Category", selection: $category) {
+                                ForEach(LegalAidSearch.Columns.allCases[7 ..< LegalAidSearch.Columns.allCases.count], id: \.desc) { category in
+                                    Text(category.desc)
+                                        .tag(category.desc)
+                                }
                             }
+                            .pickerStyle(.menu)
+                            
+                            Picker("City", selection: $city) {
+                                ForEach(Set(callees.map(\.city)).sorted(), id: \.self) { city in
+                                    Text(city)
+                                        .tag(city)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                        }) {
+                            Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
                         }
-                        .pickerStyle(.menu)
+                    }
+                    
+                    
+                    ToolbarItem {
                         
-                        Picker("City", selection: $city) {
-                            ForEach(Set(callees.map(\.city)).sorted(), id: \.self) { city in
-                                Text(city)
-                                    .tag(city)
+                        Button(action: { isSettingsShowing.toggle() }) {
+                            if loading == 0 {
+                                Label("Settings", systemImage: "gear")
+                            } else {
+                                ProgressView("Refreshing", value: loading, total: 6000)
                             }
                         }
-                        .pickerStyle(.menu)
-                    }) {
-                        Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
+                        
+                        
                     }
+                    
                 }
-                //#if os(iOS)
-                //                ToolbarItem(placement: .navigationBarTrailing) {
-                //                    EditButton()
-                //                }
-                //#endif
-//                ToolbarItem {
-//                    Button(action: addItem) {
-//                        Label("Add Database", systemImage: "plus")
-//                    }
-//                    .fileImporter(isPresented: $isShowing, allowedContentTypes: [.json]) { result in
-//                        
-////                        switch result {
-////                        case .success(let Fileurl):
-////                            Task {
-////                                do {
-////                                    guard Fileurl.startAccessingSecurityScopedResource() else { // Notice this line right here
-////                                         return
-////                                    }
-////                                    // Read the contents of the file
-////                                    let data = try Data(contentsOf: Fileurl)
-////                                    
-////                                        Fileurl.stopAccessingSecurityScopedResource()
-////                                    
-////                                    // Decode the JSON data into an array of YourObjectType
-////                                    let decoder = JSONDecoder()
-////                                    let objects = try decoder.decode([RawData].self, from: data)
-////                                    
-////                                    for object in objects {
-////                                        if let _ = callees.first(where: { $0.origText == object.origText }) {
-//////                                            excisting.emails = object.emails ?? []
-//////                                            excisting.contactUsPage = object.contactUsPageUrl
-//////                                            excisting.contactForm = object.contactFormUrl
-////                                        } else {
-////                                            var web: URL? = nil
-////                                            if let w = object.web {
-////                                                web = URL(string: w)
-////                                            }
-////                                            let callee = Callee(title: object.title ?? "404",
-////                                                                phoneNumber: object.tel, emails: object.emails ?? [],
-////                                                                web: web,
-////                                                                postcode: object.postcode,
-////                                                                address: object.address,
-////                                                                origText: object.origText,
-////                                                                distance: object.distance,
-////                                                                contactUsPage: object.contactUsPageUrl,
-////                                                                contactForm: object.contactFormUrl)
-////                                            modelContext.insert(callee)
-////                                        }
-////                                    }
-////                                    
-////                                } catch {
-////                                    // Handle any errors that occur during the process
-////                                    print("Error: \(error)")
-////                                }
-////                            }
-////                        case .failure(let error):
-////                            print(error)
-////                        }
-//                    }
-//                }
-                
-                ToolbarItem {
-                    Button(action: { isSettingsShowing.toggle() }) {
-                        Label("Settings", systemImage: "gear")
-                    }
-                }
-                
-            }
-            .sheet(isPresented: $isSettingsShowing, content: {
-                SettingsView()
-            })
+                .sheet(isPresented: $isSettingsShowing, content: {
+                    SettingsView(loaded: $loading)
+                })
         } detail: {
             Text("Select an item")
         }
-//        .onAppear {
-//            try? modelContext.delete(model: Callee.self)
-//        }
+        //        .onAppear {
+        //            try? modelContext.delete(model: Callee.self)
+        //        }
     }
     
     private func addItem() {
-//#if os(macOS)
-//        let openPanel = NSOpenPanel()
-//        openPanel.prompt = "Select"
-//        openPanel.allowsMultipleSelection = false
-//        openPanel.canChooseDirectories = true
-//        openPanel.canCreateDirectories = false
-//        openPanel.canChooseFiles = false
-//        if openPanel.runModal() == NSApplication.ModalResponse.OK {
-//            let result = openPanel.url // Pathname of the selected folder
-//            
-//            if let result = result {
-//                let path = result.path
-//                // Your code here
-//            }
-//        }
-//#endif
+        //#if os(macOS)
+        //        let openPanel = NSOpenPanel()
+        //        openPanel.prompt = "Select"
+        //        openPanel.allowsMultipleSelection = false
+        //        openPanel.canChooseDirectories = true
+        //        openPanel.canCreateDirectories = false
+        //        openPanel.canChooseFiles = false
+        //        if openPanel.runModal() == NSApplication.ModalResponse.OK {
+        //            let result = openPanel.url // Pathname of the selected folder
+        //
+        //            if let result = result {
+        //                let path = result.path
+        //                // Your code here
+        //            }
+        //        }
+        //#endif
         isShowing = true
         //        withAnimation {
         //            let newItem = Item(timestamp: Date())
