@@ -202,7 +202,11 @@ class LegalAidSearch {
         
         let address = [row[Columns.addressLine1.rawValue].orEmpty, row[Columns.addressLine2.rawValue], row[Columns.addressLine3.rawValue]].compactMap({$0}).joined(separator: "\n")
         
-        let callee = Callee(title: row[Columns.firmName.rawValue].orNotFound, phoneNumber: row[Columns.telephoneNumber.rawValue], postcode: row[Columns.postcode.rawValue], address: address, city: row[Columns.city.rawValue])
+        var phoneNumber = row[Columns.telephoneNumber.rawValue] ?? ""
+        
+        phoneNumber.components(separatedBy: " ").joined(separator: "")
+        
+        let callee = Callee(title: row[Columns.firmName.rawValue].orNotFound, phoneNumber: phoneNumber, postcode: row[Columns.postcode.rawValue] ?? "", address: address, city: row[Columns.city.rawValue])
         
         for column in allColumns[7 ..< allColumns.count] {
             if let val = row[column.rawValue], !val.isEmpty {

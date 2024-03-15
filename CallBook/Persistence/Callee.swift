@@ -20,10 +20,10 @@ final class Callee {
     }
     
     private(set) var title = ""
-    private(set) var phoneNumber: String?
+    private(set) var phoneNumber = ""
     var emails: [String] = []
     private(set) var web: URL?
-    private(set) var postcode: String?
+    private(set) var postcode = ""
     private(set) var address: String?
     private(set) var origText = ""
     private(set) var city = ""
@@ -38,7 +38,7 @@ final class Callee {
     var avaliability: Avaliability? = nil
     
     var phoneURL: URL? {
-        if let phoneNumber = phoneNumber {
+        if !phoneNumber.isEmpty {
             return URL(string: "tel://" + phoneNumber)
         }
         return nil
@@ -55,7 +55,7 @@ final class Callee {
         }
     }
     
-    init(title: String = "", phoneNumber: String? = nil, emails: [String] = [], web: URL? = nil, postcode: String? = nil, address: String? = nil, city: String? = "", origText: String = "", distance: Float? = nil, contactUsPage: String? = nil, contactForm: String? = nil, calls: [Call]? = nil, notes: String = "") {
+    init(title: String = "", phoneNumber: String = "", emails: [String] = [], web: URL? = nil, postcode: String = "", address: String? = nil, city: String? = "", origText: String = "", distance: Float? = nil, contactUsPage: String? = nil, contactForm: String? = nil, calls: [Call]? = nil, notes: String = "") {
         self.title = title
         self.phoneNumber = phoneNumber
         self.emails = emails

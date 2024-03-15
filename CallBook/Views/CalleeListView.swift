@@ -28,7 +28,12 @@ struct CalleeListView: View {
 //        _city = city
         self.category = category
         
-        let searchString = search.wrappedValue
+        var searchString = search.wrappedValue
+        
+        if searchScope.wrappedValue == .phone {
+            searchString.components(separatedBy: " ").joined(separator: "")
+        }
+        
         let scope = searchScope.wrappedValue.rawValue
 //        let rawCity = city.wrappedValue
         
@@ -40,19 +45,52 @@ struct CalleeListView: View {
         
         let isLoading = loading != 0
         
-        var predicate: Predicate<Callee>? = isLoading ? nil : #Predicate {
-            if searchString.isEmpty {
-                return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories != nil && $0.categories!.contains(where: { $0.customID == categoryID})*/
-            } else {
-                if scope == "title" {
-                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.title.localizedStandardContains(searchString)
-                } else if scope == "notes" {
-                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.notes.localizedStandardContains(searchString)
-                } else {
-                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil })*/ && $0.title.localizedStandardContains(searchString)
+        var predicate: Predicate<Callee>? = #Predicate {
+            return $0.city == cityID && $0.origText.localizedStandardContains(categoryID)
+        }
+        
+        if !searchString.isEmpty {
+            switch searchScope.wrappedValue {
+            case .title:
+                predicate = #Predicate {
+                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.title.localizedStandardContains(searchString)
+                }
+            case .notes:
+                predicate = #Predicate {
+                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.notes.localizedStandardContains(searchString)
+                }
+            case .postcode:
+                predicate = #Predicate {
+                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.postcode.localizedStandardContains(searchString)
+                }
+            case .phone:
+                predicate = #Predicate {
+                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.phoneNumber.localizedStandardContains(searchString)
                 }
             }
         }
+        
+        if isLoading {
+            predicate = nil
+        }
+        
+//        var predicate: Predicate<Callee>? = isLoading ? nil : #Predicate {
+//            if searchString.isEmpty {
+//                return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories != nil && $0.categories!.contains(where: { $0.customID == categoryID})*/
+//            } else {
+//                if scope == "title" {
+//                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.title.localizedStandardContains(searchString)
+//                } else if scope == "notes" {
+//                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.notes.localizedStandardContains(searchString)
+//                } else if scope == "postcode" {
+//                    return $0.city == cityID && $0.postcode.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.notes.localizedStandardContains(searchString)
+////                } else if scope == "phone" {
+////                    return $0.city == cityID && $0.phoneNumber.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.notes.localizedStandardContains(searchString)
+//                } else {
+//                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil })*/ && $0.title.localizedStandardContains(searchString)
+//                }
+//            }
+//        }
         
         
         var descriptor = FetchDescriptor<Callee>(

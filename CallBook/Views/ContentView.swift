@@ -22,7 +22,7 @@ struct RawData: Codable {
 }
 
 enum SearchScope: String, CaseIterable {
-    case title, notes//, address, phone
+    case title, notes, postcode, phone//, address, phone
 }
 
 struct ContentView: View {

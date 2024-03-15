@@ -82,8 +82,8 @@ struct CalleeView: View {
                 if !callee.city.isEmpty && callee.city != "404" {
                     detail("City", data: callee.city)
                 }
-                if let postcode = callee.postcode {
-                    detail("PostCode", data: postcode)
+                if !callee.postcode.isEmpty {
+                    detail("PostCode", data: callee.postcode)
                         .onAppear {
                             search()
                         }
@@ -119,15 +119,14 @@ struct CalleeView: View {
                 if let distance = callee.distance {
                     detail("Distance", data: "\(distance) miles")
                 }
-                if let phoneNumber = callee.phoneURL,
-                   let phoneNum = callee.phoneNumber {
+                if let phoneNumber = callee.phoneURL {
                     Button(action: {
                         let call = Call(callee: callee)
                         modelContext.insert(call)
                         openURL(phoneNumber)
                     }) {
                         HStack {
-                            Text(phoneNum)
+                            Text(callee.phoneNumber)
                             Spacer()
                             Label("Call", systemImage: "phone")
                         }
@@ -135,7 +134,7 @@ struct CalleeView: View {
                     .buttonStyle(.plain)
                     .contextMenu {
                         Button(action: {
-                            copyToPasteboard(phoneNum)
+                            copyToPasteboard(callee.phoneNumber)
                         }) {
                             Label("Copy", systemImage: "doc.on.doc")
                         }
