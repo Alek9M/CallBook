@@ -21,7 +21,7 @@ struct CalleeListView: View {
     @Binding var page: Int
     var category: String
     
-    init(search: Binding<String>, searchScope: Binding<SearchScope>, city: String, category: String, page: Binding<Int>, loading: Double) {
+    init(search: Binding<String>, searchScope: Binding<SearchScope>, city: String, category: String, page: Binding<Int>, loading: Double, filterByCity: Bool) {
         _search = search
         _searchScope = searchScope
         _page = page
@@ -31,13 +31,9 @@ struct CalleeListView: View {
         var searchString = search.wrappedValue
         
         if searchScope.wrappedValue == .phone {
-            searchString.components(separatedBy: " ").joined(separator: "")
+            searchString = searchString.components(separatedBy: " ").joined(separator: "")
         }
         
-        let scope = searchScope.wrappedValue.rawValue
-//        let rawCity = city.wrappedValue
-        
-//        let scopes = SearchScope.allCases.map { $0.rawValue }.sorted()
         let pageNumber = page.wrappedValue
         
         let cityID = city
@@ -45,27 +41,56 @@ struct CalleeListView: View {
         
         let isLoading = loading != 0
         
-        var predicate: Predicate<Callee>? = #Predicate {
-            return $0.city == cityID && $0.origText.localizedStandardContains(categoryID)
-        }
+        var predicate: Predicate<Callee>? = nil
         
-        if !searchString.isEmpty {
-            switch searchScope.wrappedValue {
-            case .title:
-                predicate = #Predicate {
-                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.title.localizedStandardContains(searchString)
+        if filterByCity {
+            predicate = #Predicate {
+                return $0.city == cityID && $0.origText.localizedStandardContains(categoryID)
+            }
+            
+            if !searchString.isEmpty {
+                switch searchScope.wrappedValue {
+                case .title:
+                    predicate = #Predicate {
+                        return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.title.localizedStandardContains(searchString)
+                    }
+                case .notes:
+                    predicate = #Predicate {
+                        return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.notes.localizedStandardContains(searchString)
+                    }
+                case .postcode:
+                    predicate = #Predicate {
+                        return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.postcode.localizedStandardContains(searchString)
+                    }
+                case .phone:
+                    predicate = #Predicate {
+                        return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.phoneNumber.localizedStandardContains(searchString)
+                    }
                 }
-            case .notes:
-                predicate = #Predicate {
-                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.notes.localizedStandardContains(searchString)
-                }
-            case .postcode:
-                predicate = #Predicate {
-                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.postcode.localizedStandardContains(searchString)
-                }
-            case .phone:
-                predicate = #Predicate {
-                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) && $0.phoneNumber.localizedStandardContains(searchString)
+            }
+        } else {
+            predicate = #Predicate {
+                return $0.origText.localizedStandardContains(categoryID)
+            }
+            
+            if !searchString.isEmpty {
+                switch searchScope.wrappedValue {
+                case .title:
+                    predicate = #Predicate {
+                        return $0.origText.localizedStandardContains(categoryID) && $0.title.localizedStandardContains(searchString)
+                    }
+                case .notes:
+                    predicate = #Predicate {
+                        return $0.origText.localizedStandardContains(categoryID) && $0.notes.localizedStandardContains(searchString)
+                    }
+                case .postcode:
+                    predicate = #Predicate {
+                        return $0.origText.localizedStandardContains(categoryID) && $0.postcode.localizedStandardContains(searchString)
+                    }
+                case .phone:
+                    predicate = #Predicate {
+                        return $0.origText.localizedStandardContains(categoryID) && $0.phoneNumber.localizedStandardContains(searchString)
+                    }
                 }
             }
         }

@@ -16,8 +16,8 @@ struct SettingsView: View {
     @State private var error: Error? = nil
     @State private var refreshAlerts = false
     @State private var deletionAlerts = false
-    @State private var cities: [String]? = nil
-    @State private var city: String? = nil
+    @Binding var cities: [String]?
+    @Binding var city: String?
     @State private var citySearch = ""
     
     @Binding var loaded: Double
@@ -62,9 +62,7 @@ struct SettingsView: View {
 #if os(macOS)
                 .padding()
 #endif
-        .sheet(item: $cities) { cities in
-            CityPickerView(city: $city, cities: cities)
-        }
+        
     }
     
     private func deleteAll() {

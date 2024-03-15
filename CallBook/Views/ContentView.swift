@@ -44,6 +44,8 @@ struct ContentView: View {
     @State private var city = "" //"Aberdare" //"London"
     @State private var page = 0
     @State private var loading = 0.0
+    @State private var saveCity: String? = nil
+    @State private var cities: [String]? = nil
     
     //    private var searched: [Callee] {
     //        if search.isEmpty {
@@ -69,7 +71,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            CalleeListView(search: $search, searchScope: $searchScope, city: city, category: category, page: $page, loading: loading)
+            CalleeListView(search: $search, searchScope: $searchScope, city: city, category: category, page: $page, loading: loading, filterByCity: Set(callees.map(\.city)).count > 1)
             //            Text(" ")
                 .searchable(text: $search)
                 .searchScopes($searchScope) {
@@ -144,8 +146,11 @@ struct ContentView: View {
                     
                 }
                 .sheet(isPresented: $isSettingsShowing, content: {
-                    SettingsView(loaded: $loading)
+                    SettingsView(cities: $cities, city: $saveCity, loaded: $loading)
                 })
+                .sheet(item: $cities) { cities in
+                    CityPickerView(city: $saveCity, cities: cities)
+                }
         } detail: {
             Text("Select an item")
         }
