@@ -88,6 +88,7 @@
 		0C0B92AB2BA4834100E029B3 /* CityPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPickerView.swift; sourceTree = "<group>"; };
 		0C0B92AD2BA489FC00E029B3 /* CallRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRowView.swift; sourceTree = "<group>"; };
 		0C0B92AF2BA4B0B600E029B3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		0C0B92B02BA4BBF200E029B3 /* CallBookDirectory.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallBookDirectory.entitlements; sourceTree = "<group>"; };
 		0C0F290F2BA0B69E00D67F61 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0C0F29112BA0B7AC00D67F61 /* LegalAidSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalAidSearch.swift; sourceTree = "<group>"; };
 		0C0F29132BA0C65A00D67F61 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -183,6 +184,7 @@
 		0C4CAD852B1960FD00E2E004 /* CallBookDirectory */ = {
 			isa = PBXGroup;
 			children = (
+				0C0B92B02BA4BBF200E029B3 /* CallBookDirectory.entitlements */,
 				0C4CAD862B1960FD00E2E004 /* CallDirectoryHandler.swift */,
 				0C4CAD882B1960FD00E2E004 /* Info.plist */,
 			);
@@ -513,6 +515,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = CallBookDirectory/CallBookDirectory.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CJT7A7FMC4;
@@ -544,6 +547,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = CallBookDirectory/CallBookDirectory.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CJT7A7FMC4;

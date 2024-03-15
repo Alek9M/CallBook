@@ -118,6 +118,10 @@ struct SettingsView: View {
 //                                            try await Task.sleep(for: .milliseconds(1))
                                         }
                 }
+                let sharedUserDefaults = UserDefaults(suiteName: "group.com.akrp9.CallBook")
+                let phoneNumbersData = callees.reduce(into: [String: String]()) { $0[$1.phoneNumber] = $1.title }
+                sharedUserDefaults?.set(phoneNumbersData, forKey: "phoneNumbers")
+                sharedUserDefaults?.synchronize()
                 //                }
             } catch {
                 self.error = error

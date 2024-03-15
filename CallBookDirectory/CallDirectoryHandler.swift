@@ -69,6 +69,23 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
 //        for (phoneNumber, label) in zip(allPhoneNumbers, labels) {
 //            context.addIdentificationEntry(withNextSequentialPhoneNumber: phoneNumber, label: label)
 //        }
+        
+        
+        let sharedUserDefaults = UserDefaults(suiteName: "group.com.akrp9.CallBook")
+        let phoneNumbersData = sharedUserDefaults?.object(forKey: "phoneNumbers") as? [String : String] ?? [:]
+
+        for (phoneNumber, label) in phoneNumbersData {
+            var phone = phoneNumber.components(separatedBy: " ").joined(separator: "")
+            if phone.hasPrefix("0") {
+                phone.trimPrefix("0")
+                phone = "44" + phone
+            }
+            if let phoneNumber = CXCallDirectoryPhoneNumber(phone) {
+                context.addIdentificationEntry(withNextSequentialPhoneNumber: phoneNumber, label: label)
+            }
+        }
+
+        context.completeRequest()
     }
 
     private func addOrRemoveIncrementalIdentificationPhoneNumbers(to context: CXCallDirectoryExtensionContext) {
