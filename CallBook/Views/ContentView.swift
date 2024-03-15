@@ -103,46 +103,49 @@ struct ContentView: View {
                 .navigationSplitViewColumnWidth(min: 180, ideal: 200)
 #endif
                 .toolbar {
-                    ToolbarItem {
-                        Menu(content: {
-                            Picker("Category", selection: $category) {
-                                ForEach(LegalAidSearch.Columns.allCases[7 ..< LegalAidSearch.Columns.allCases.count], id: \.desc) { category in
-                                    Text(category.desc)
-                                        .tag(category.desc)
-                                }
-                            }
-                            .pickerStyle(.menu)
-                            
-                            if let set = Optional(Set(callees.map(\.city))),
-                                set.count > 1 {
-                                Picker("City", selection: $city) {
-                                    ForEach(set.sorted(), id: \.self) { city in
-                                        Text(city)
-                                            .tag(city)
+                    if loading == 0 {
+                        ToolbarItem {
+                            Menu(content: {
+                                Picker("Category", selection: $category) {
+                                    ForEach(LegalAidSearch.Columns.allCases[7 ..< LegalAidSearch.Columns.allCases.count], id: \.desc) { category in
+                                        Text(category.desc)
+                                            .tag(category.desc)
                                     }
                                 }
                                 .pickerStyle(.menu)
-//                                }
+                                
+                                if let set = Optional(Set(callees.map(\.city))),
+                                    set.count > 1 {
+                                    Picker("City", selection: $city) {
+                                        ForEach(set.sorted(), id: \.self) { city in
+                                            Text(city)
+                                                .tag(city)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+    //                                }
+                                }
+                                
+                            }) {
+                                Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
+                            }
+                        }
+                        
+                        
+                        ToolbarItem {
+                            
+                            Button(action: { isSettingsShowing.toggle() }) {
+                                if loading == 0 {
+                                    Label("Settings", systemImage: "gear")
+                                } else {
+                                    ProgressView("Refreshing", value: loading, total: 8000)
+                                }
                             }
                             
-                        }) {
-                            Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
+                            
                         }
                     }
                     
-                    
-                    ToolbarItem {
-                        
-                        Button(action: { isSettingsShowing.toggle() }) {
-                            if loading == 0 {
-                                Label("Settings", systemImage: "gear")
-                            } else {
-                                ProgressView("Refreshing", value: loading, total: 8000)
-                            }
-                        }
-                        
-                        
-                    }
                     
                 }
                 .sheet(isPresented: $isSettingsShowing, content: {
