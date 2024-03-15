@@ -101,13 +101,24 @@ struct ContentView: View {
                             }
                             .pickerStyle(.menu)
                             
-                            Picker("City", selection: $city) {
-                                ForEach(Set(callees.map(\.city)).sorted(), id: \.self) { city in
-                                    Text(city)
-                                        .tag(city)
+                            if let set = Optional(Set(callees.map(\.city))) {
+                                if set.count > 1 {
+                                    Picker("City", selection: $city) {
+                                        ForEach(set.sorted(), id: \.self) { city in
+                                            Text(city)
+                                                .tag(city)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                }
+                                else {
+                                    EmptyView()
+                                        .onAppear() {
+                                            city = set.first.orEmpty
+                                        }
                                 }
                             }
-                            .pickerStyle(.menu)
+                            
                         }) {
                             Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
                         }

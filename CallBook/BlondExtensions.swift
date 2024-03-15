@@ -21,5 +21,6 @@ extension String {
     
     public func saveToCloud(newValue: String) {
         NSUbiquitousKeyValueStore.default.set(newValue, forKey: self)
+        NSUbiquitousKeyValueStore.default.synchronize()
     }
 }
