@@ -16,6 +16,8 @@ struct SettingsView: View {
     @State private var error: Error? = nil
     @State private var refreshAlerts = false
     @State private var deletionAlerts = false
+    @State private var cities: [String]? = nil
+    @State private var city: String? = nil
     
     @Binding var loaded: Double
     
@@ -59,6 +61,23 @@ struct SettingsView: View {
 #if os(macOS)
         .padding(/*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
 #endif
+        .sheet(item: $cities) { cities in
+            List(cities, id: \.self){ choice in
+                Button(action: {
+                    self.city = choice
+                    self.cities = nil
+                }) {
+                    Text(choice)
+                }
+#if os(macOS)
+                .buttonStyle(BorderlessButtonStyle.borderless)
+#endif
+            }
+#if os(macOS)
+        .padding(/*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+#endif
+            .navigationTitle("Select city to save")
+        }
     }
     
     private func deleteAll() {
@@ -82,7 +101,18 @@ struct SettingsView: View {
             }
             do {
                 try await importer.clear()
-                let callees = try await LegalAidSearch.load(with: $loaded)
+                var callees = try await LegalAidSearch.load(with: $loaded, cities: $cities)
+                
+                let cityTask = Task.detached {
+                    while self.city == nil {
+                        try await Task.sleep(for: .seconds(1))
+                    }
+                    return city!
+                }
+                
+                let cit = try await cityTask.value
+                
+                callees = callees.filter { $0.city == cit }
                 //                container.deleteAllData()
                 //                try await container.mainContext.delete(model: Callee.self)
                 //                try await importer.backgroundInsert(callees, with: $loaded)
@@ -159,6 +189,12 @@ struct SettingsView: View {
                 progress.wrappedValue += Double(batchSize)
             }
         }
+    }
+}
+
+extension [String] :Identifiable {
+    public var id: Int {
+        hashValue
     }
 }
 

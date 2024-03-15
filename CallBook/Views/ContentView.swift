@@ -41,7 +41,7 @@ struct ContentView: View {
     @State private var search = ""
     @State private var searchScope = SearchScope.title
     @State private var isSettingsShowing = false
-    @State private var city = "Aberdare" //"London"
+    @State private var city = "London" //"Aberdare" //"London"
     @State private var page = 0
     @State private var loading = 0.0
     

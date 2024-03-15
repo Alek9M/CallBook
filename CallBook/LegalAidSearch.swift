@@ -221,7 +221,13 @@ class LegalAidSearch {
         }
     }
     
-    static func load(with progress: Binding<Double>? = nil) async throws -> [Callee] {
+    static func citiesAvaliable(in worksheet: Worksheet, with sharedStrings : SharedStrings) -> [String] {
+        let cells = worksheet.cells(atColumns: [ColumnReference("F")!])
+        let array = cells.compactMap { $0.stringValue(sharedStrings) }
+        return Set(array).sorted()
+    }
+    
+    static func load(with progress: Binding<Double>? = nil, cities: Binding<[String]?>) async throws -> [Callee] {
         
         //            TODO: uncomment for online
         let html = try String(contentsOf: URL(string: "https://www.gov.uk/government/publications/directory-of-legal-aid-providers")!)
@@ -245,6 +251,8 @@ class LegalAidSearch {
         guard let sharedStrings = try file.parseSharedStrings() else {
             throw LoadingError.xlsx
         }
+        showProgress(progress: progress, of: 100)
+        cities.wrappedValue = citiesAvaliable(in: worksheet, with: sharedStrings)
         
         let rowsCount = worksheet.cells(atColumns: [ColumnReference("B")!]).count
         
