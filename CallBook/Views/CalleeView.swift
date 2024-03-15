@@ -17,19 +17,28 @@ struct CalleeView: View {
     @Environment(\.openURL) private var openURL
     
     var callee: Callee
-    @State private var region: MKCoordinateRegion? = nil
+    
+    static private let london = MKCoordinateRegion(
+        center: .init(latitude: 51.5, longitude: 0),
+        span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+    
+    
+    @State private var region: MKCoordinateRegion = CalleeView.london
     
     @State private var searchResults: [MKMapItem] = []
     @State private var notes = ""
     @State private var task: Task<(), Never>? = nil
     
-    func search() {
+    private func search() {
+        searchResults = []
         let request = MKLocalSearch.Request ()
         request.naturalLanguageQuery = callee.postcode
         request.resultTypes = .address
-        request.region = MKCoordinateRegion(
-            center: .init(latitude: 51.5, longitude: 0),
-            span: MKCoordinateSpan(latitudeDelta: 0.0125, longitudeDelta: 0.0125))
+        
+        request.region.span = MKCoordinateSpan(latitudeDelta: 0.0125, longitudeDelta: 0.0125)
+//        request.region = MKCoordinateRegion(
+//            center: .init(latitude: 51.5, longitude: 0),
+//            span: MKCoordinateSpan(latitudeDelta: 0.0125, longitudeDelta: 0.0125))
         Task {
             let search = MKLocalSearch(request: request)
             let response = try? await search.start()
@@ -53,7 +62,7 @@ struct CalleeView: View {
             //                }
             //            }
             Section("Categories") {
-                ForEach(callee.origText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .newlines), id: \.self) { categoryString in
+                ForEach(callee.origText.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .newlines).filter { !$0.isEmpty }, id: \.self) { categoryString in
                     Text(categoryString)
 #if os(macOS)
                         .padding(.leading)
@@ -63,7 +72,7 @@ struct CalleeView: View {
             
             Section("Address") {
                 if let address = callee.address {
-                    ForEach(address.components(separatedBy: .newlines), id: \.self) { addressLine in
+                    ForEach(address.components(separatedBy: .newlines).filter { !$0.isEmpty }, id: \.self) { addressLine in
                         Text(addressLine)
 #if os(macOS)
                             .padding(.leading)
@@ -75,23 +84,26 @@ struct CalleeView: View {
                 }
                 if let postcode = callee.postcode {
                     detail("PostCode", data: postcode)
+                        .onAppear {
+                            search()
+                        }
                 }
+                //                if (region.center.latitude, region.center.longitude) != (CalleeView.london.center.latitude, CalleeView.london.center.longitude) {
+                Map//(coordinateRegion: $region, showsUserLocation: true)
+                {
+                    ForEach(searchResults, id: \.self) { result in
+                        Marker(item: result)
+                    }
+                }
+                .frame(height: 300)
+                //                }
             }
             
-            HStack {
-                
-                //                Text(lines)
-                //                    .selectionDisabled(false)
-                
-                if let region = region {
-                    Map {
-                        ForEach(searchResults, id: \.self) { result in
-                            Marker(item: result)
-                        }
-                    }
-                    .frame(width: 300, height: 300)
-                }
-            }
+            
+            //                Text(lines)
+            //                    .selectionDisabled(false)
+            
+            
             
             Section("Details") {
                 if let distance = callee.distance {
@@ -128,27 +140,27 @@ struct CalleeView: View {
                 
             }
             
-            Section("Emails") {
-                ForEach(callee.emails, id: \.self) { email in
-                    HStack {
-                        Text(email)
-                        if let url = URL(string: "mailto:" + email) {
-                            Spacer()
-                            Button(action: {
-                                openURL(url)
-                            }) {
-                                Label("Send", systemImage: "envelope")
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                }
-                .onDelete(perform: deleteItems)
-                
-                Button(action: {}) {
-                    Label("Add email", systemImage: "plus")
-                }
-            }
+            //            Section("Emails") {
+            //                ForEach(callee.emails, id: \.self) { email in
+            //                    HStack {
+            //                        Text(email)
+            //                        if let url = URL(string: "mailto:" + email) {
+            //                            Spacer()
+            //                            Button(action: {
+            //                                openURL(url)
+            //                            }) {
+            //                                Label("Send", systemImage: "envelope")
+            //                            }
+            //                            .buttonStyle(.plain)
+            //                        }
+            //                    }
+            //                }
+            //                .onDelete(perform: deleteItems)
+            //
+            //                Button(action: {}) {
+            //                    Label("Add email", systemImage: "plus")
+            //                }
+            //            }
             
             //            CalleeNote(callee: .constant(callee))
             Section("Notes") {
@@ -170,6 +182,9 @@ struct CalleeView: View {
         }
 #if os(macOS)
         .padding()
+        .onChange(of: callee) {
+            search()
+        }
 #endif
         .navigationTitle(callee.title)
         .onChange(of: callee) {
