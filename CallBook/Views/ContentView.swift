@@ -120,7 +120,7 @@ struct ContentView: View {
                             if loading == 0 {
                                 Label("Settings", systemImage: "gear")
                             } else {
-                                ProgressView("Refreshing", value: loading, total: 6000)
+                                ProgressView("Refreshing", value: loading, total: 8000)
                             }
                         }
                         

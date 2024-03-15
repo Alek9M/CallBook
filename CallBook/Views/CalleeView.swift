@@ -36,9 +36,9 @@ struct CalleeView: View {
         request.resultTypes = .address
         
         request.region.span = MKCoordinateSpan(latitudeDelta: 0.0125, longitudeDelta: 0.0125)
-//        request.region = MKCoordinateRegion(
-//            center: .init(latitude: 51.5, longitude: 0),
-//            span: MKCoordinateSpan(latitudeDelta: 0.0125, longitudeDelta: 0.0125))
+        //        request.region = MKCoordinateRegion(
+        //            center: .init(latitude: 51.5, longitude: 0),
+        //            span: MKCoordinateSpan(latitudeDelta: 0.0125, longitudeDelta: 0.0125))
         Task {
             let search = MKLocalSearch(request: request)
             let response = try? await search.start()
@@ -165,6 +165,9 @@ struct CalleeView: View {
             //            CalleeNote(callee: .constant(callee))
             Section("Notes") {
                 TextEditor(text: $notes)
+#if os(macOS)
+                .frame(height: 100)
+#endif
             }
             
             if let calls = callee.calls {
@@ -256,9 +259,14 @@ struct CalleeView: View {
     }
     
     private func copyToPasteboard(_ textToCopy: String) {
-#if os(iOS)
+#if os(macOS)
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(textToCopy, forType: .string)
+#else
         UIPasteboard.general.string = textToCopy
 #endif
+        
     }
 }
 

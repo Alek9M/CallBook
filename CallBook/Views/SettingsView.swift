@@ -12,6 +12,7 @@ struct SettingsView: View {
     
     @Environment(\.modelContext) private var modelContext
     
+    
     @State private var error: Error? = nil
     @State private var refreshAlerts = false
     @State private var deletionAlerts = false
@@ -24,7 +25,7 @@ struct SettingsView: View {
                 Text("Last refreshed: \(LegalAidSearch.lastRefresh)")
                 Button(action: { refreshAlerts.toggle() }) {
                     Label("Refresh", systemImage: "arrow.clockwise")
-//                    Label("Download", systemImage: "square.and.arrow.down")
+                    //                    Label("Download", systemImage: "square.and.arrow.down")
                 }
                 .alert("This action could take several minutes and will delete all the data. Continue?", isPresented: $refreshAlerts, actions: {
                     Button(action: { load() }, label: { Text("Yes") })
@@ -32,7 +33,7 @@ struct SettingsView: View {
                 })
                 Button(action: { deletionAlerts.toggle() }) {
                     Label("Delete all", systemImage: "trash")
-//                    Label("Download", systemImage: "square.and.arrow.down")
+                    //                    Label("Download", systemImage: "square.and.arrow.down")
                 }
                 .alert("This action will delete all the data. Continue?", isPresented: $deletionAlerts, actions: {
                     Button(action: { deleteAll() }, label: { Text("Yes") })
@@ -41,19 +42,19 @@ struct SettingsView: View {
                 
             }
             .disabled(loaded != 0)
-//            .onAppear {
-//                do {
-//                    print(try modelContext.fetchCount(FetchDescriptor<Callee>()))
-//                    let callees = try modelContext.fetch(FetchDescriptor<Callee>(), batchSize: 500)
-//                    for (index, callee) in callees.enumerated() {
-//                        modelContext.delete(callee)
-//                        try? modelContext.save()
-//                    }
-//                } catch {
-//                    print(error.localizedDescription)
-//                    fatalError("Could not initialize ModelContainer")
-//                }
-//            }
+            //            .onAppear {
+            //                do {
+            //                    print(try modelContext.fetchCount(FetchDescriptor<Callee>()))
+            //                    let callees = try modelContext.fetch(FetchDescriptor<Callee>(), batchSize: 500)
+            //                    for (index, callee) in callees.enumerated() {
+            //                        modelContext.delete(callee)
+            //                        try? modelContext.save()
+            //                    }
+            //                } catch {
+            //                    print(error.localizedDescription)
+            //                    fatalError("Could not initialize ModelContainer")
+            //                }
+            //            }
         }
 #if os(macOS)
         .padding(/*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
@@ -72,7 +73,7 @@ struct SettingsView: View {
     private func load() {
         loaded = 1
         let container = modelContext.container
-//        let importer = BackgroundImporter(modelContainer: modelContext.container)
+        let importer = BackgroundImporter(modelContainer: container)
         Task.detached(priority: .background) {
             defer {
                 DispatchQueue.main.async {
@@ -80,47 +81,82 @@ struct SettingsView: View {
                 }
             }
             do {
+                try await importer.clear()
                 let callees = try await LegalAidSearch.load(with: $loaded)
-                
-//                container.deleteAllData()
-                try await container.mainContext.delete(model: Callee.self)
-//                try await importer.backgroundInsert(callees)
-                for (index, callee) in callees.enumerated() {
-                    await container.mainContext.insert(callee)
-                    if index % 500 == 0 {
-                        try modelContext.save()
-                        try await Task.sleep(for: .milliseconds(1))
-                        loaded += 100
-                    }
+                //                container.deleteAllData()
+                //                try await container.mainContext.delete(model: Callee.self)
+                //                try await importer.backgroundInsert(callees, with: $loaded)
+                //                DispatchQueue.main.asyncAndWait {
+                for callee in callees {
+                    //                        await container.mainContext.insert(callee)
+                    try await importer.insert(callee)
+                    loaded += 1
+                    print(loaded)
+                    if Int(loaded) % 500 == 0 {
+                        try await importer.save()
+//                                            try modelContext.save()
+//                                            try await Task.sleep(for: .milliseconds(1))
+                                        }
                 }
-                    
+                //                }
             } catch {
                 self.error = error
             }
-            
         }
     }
     
     actor BackgroundImporter {
         var modelContainer: ModelContainer
-
+        var modelContext: ModelContext
+        
         init(modelContainer: ModelContainer) {
             self.modelContainer = modelContainer
+            self.modelContext = ModelContext(modelContainer)
         }
-
-        func backgroundInsert(_ callees: [Callee]) async throws {
+        private var inserting = false
+        
+        func insert(_ callee: Callee) throws {
+            inserting = true
+//            let modelContext = ModelContext(modelContainer)
+            //                     try await Task.sleep(for: .milliseconds(1))
+            print(callee.title)
+            modelContext.insert(callee)
+//            try modelContext.save()
+            inserting = false
+        }
+        
+        func clear() async throws {
+            inserting = true
             let modelContext = ModelContext(modelContainer)
-
+            try modelContext.delete(model: Callee.self)
+            try modelContext.save()
+            inserting = false
+        }
+        
+        func save() async throws {
+            inserting = true
+//            (modelContext.insertedModelsArray[0] as! Callee).title
+//            let modelContext = ModelContext(modelContainer)
+            try modelContext.save()
+            inserting = false
+        }
+        
+        
+        func backgroundInsert(_ callees: [Callee], with progress: Binding<Double>) throws {
+            let modelContext = ModelContext(modelContainer)
+            
             let batchSize = 500
             let totalObjects = callees.count
-
+            
             for i in 0..<(totalObjects / batchSize) {
                 for j in 0..<batchSize {
-                    // try await Task.sleep(for: .milliseconds(1))
+                    //                     try await Task.sleep(for: .milliseconds(1))
                     modelContext.insert(callees[i])
+                    print("\n info:" + j.description)
                 }
-
+                print("\n info:" + i.description)
                 try modelContext.save()
+                progress.wrappedValue += Double(batchSize)
             }
         }
     }

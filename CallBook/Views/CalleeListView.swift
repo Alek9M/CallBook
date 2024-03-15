@@ -40,16 +40,15 @@ struct CalleeListView: View {
         
         var predicate: Predicate<Callee> = #Predicate {
             if searchString.isEmpty {
-                return $0.city == cityID /*&& $0.categories != nil && $0.categories!.contains(where: { $0.customID == categoryID})*/
+                return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories != nil && $0.categories!.contains(where: { $0.customID == categoryID})*/
             } else {
-//                if scope == "title" {
-//                    return $0.city?.customID == cityID /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.title.localizedStandardContains(searchString)
-//                } else if scope == "notes" {
-//                    return $0.city?.customID == cityID /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.notes.localizedStandardContains(searchString)
-//                } else {
-//                    return $0.city?.customID == cityID /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil })*/ && $0.title.localizedStandardContains(searchString)
-//                }
-                return false
+                if scope == "title" {
+                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.title.localizedStandardContains(searchString)
+                } else if scope == "notes" {
+                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil }) == true*/ && $0.notes.localizedStandardContains(searchString)
+                } else {
+                    return $0.city == cityID && $0.origText.localizedStandardContains(categoryID) /*&& $0.categories.flatMap({ $0.customID == categoryID ? self : nil })*/ && $0.title.localizedStandardContains(searchString)
+                }
             }
         }
         
@@ -69,7 +68,14 @@ struct CalleeListView: View {
         List {
             ForEach(Array(callees.enumerated()), id: \.offset) { index, callee in
                 NavigationLink {
+#if os(macOS)
+                    ScrollView {
+                        CalleeView(callee: callee)
+                    }
+#else
                     CalleeView(callee: callee)
+#endif
+                    
                 } label: {
                     CalleeRowView(callee: callee)
                     .onAppear {

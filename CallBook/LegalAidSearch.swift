@@ -205,7 +205,7 @@ class LegalAidSearch {
         let callee = Callee(title: row[Columns.firmName.rawValue].orNotFound, phoneNumber: row[Columns.telephoneNumber.rawValue], postcode: row[Columns.postcode.rawValue], address: address, city: row[Columns.city.rawValue])
         
         for column in allColumns[7 ..< allColumns.count] {
-            if let _ = row[column.rawValue] {
+            if let val = row[column.rawValue], !val.isEmpty {
                 callee.addCategory(category: column.desc)
             }
         }
@@ -253,6 +253,7 @@ class LegalAidSearch {
         var db: [Callee] = []
         
         let firstRowNumber = 9
+        print("processing..")
         
         for rowNumber in firstRowNumber ..< rowsCount {
             
@@ -262,7 +263,7 @@ class LegalAidSearch {
             let callee = process(row)
             
             db.append(callee)
-            print(rowNumber)
+//            print(rowNumber)
             showProgress(progress: progress, of: 1)
             
         }
