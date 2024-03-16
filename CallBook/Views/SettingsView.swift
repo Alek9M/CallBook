@@ -24,10 +24,15 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section("Database") {
-                Text("Last refreshed: \(LegalAidSearch.lastRefresh)")
+                if !LegalAidSearch.lastRefresh.isEmpty  {
+                    Text("Last refreshed: \(LegalAidSearch.lastRefresh)")
+                }
                 Button(action: { refreshAlerts.toggle() }) {
-                    Label("Refresh", systemImage: "arrow.clockwise")
-                    //                    Label("Download", systemImage: "square.and.arrow.down")
+                    if !LegalAidSearch.lastRefresh.isEmpty  {
+                        Label("Refresh", systemImage: "arrow.clockwise")
+                    } else {
+                        Label("Download", systemImage: "arrow.down.to.line")
+                    }
                 }
                 .alert("This action could take several minutes, please don't close the app during the refresh. It will also delete all the data. Continue?", isPresented: $refreshAlerts, actions: {
                     Button(action: { load() }, label: { Text("Yes") })

@@ -81,14 +81,17 @@ struct ContentView: View {
                     }
                 }
                 .onAppear() {
-                    if city.isEmpty {
-                        if Set(callees.map(\.city)).count == 1 {
-                            city = callees.first?.city ?? ""
-                        } else {
-                            city = "London"
+                    if callees.count == 0 {
+                        isSettingsShowing = true
+                    } else {
+                        if city.isEmpty {
+                            if Set(callees.map(\.city)).count == 1 {
+                                city = callees.first?.city ?? ""
+                            } else {
+                                city = "London"
+                            }
                         }
                     }
-                    
                 }
             
             //            .alert("Everything is gonna be deleted. Are you sure you wanna proceed?", isPresented: $showingAlert) {
@@ -104,34 +107,34 @@ struct ContentView: View {
 #endif
                 .toolbar {
                     if loading == 0 {
-                        ToolbarItem {
-                            Menu(content: {
-                                Picker("Category", selection: $category) {
-                                    ForEach(LegalAidSearch.Columns.allCases[7 ..< LegalAidSearch.Columns.allCases.count], id: \.desc) { category in
-                                        Text(category.desc)
-                                            .tag(category.desc)
-                                    }
-                                }
-                                .pickerStyle(.menu)
-                                
-                                if let set = Optional(Set(callees.map(\.city))),
-                                    set.count > 1 {
-                                    Picker("City", selection: $city) {
-                                        ForEach(set.sorted(), id: \.self) { city in
-                                            Text(city)
-                                                .tag(city)
+                        if callees.count > 0 {
+                            ToolbarItem {
+                                Menu(content: {
+                                    Picker("Category", selection: $category) {
+                                        ForEach(LegalAidSearch.Columns.allCases[7 ..< LegalAidSearch.Columns.allCases.count], id: \.desc) { category in
+                                            Text(category.desc)
+                                                .tag(category.desc)
                                         }
                                     }
                                     .pickerStyle(.menu)
-    //                                }
+                                    
+                                    if let set = Optional(Set(callees.map(\.city))),
+                                        set.count > 1 {
+                                        Picker("City", selection: $city) {
+                                            ForEach(set.sorted(), id: \.self) { city in
+                                                Text(city)
+                                                    .tag(city)
+                                            }
+                                        }
+                                        .pickerStyle(.menu)
+        //                                }
+                                    }
+                                    
+                                }) {
+                                    Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
                                 }
-                                
-                            }) {
-                                Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
                             }
                         }
-                        
-                        
                         ToolbarItem {
                             
                             Button(action: { isSettingsShowing.toggle() }) {
@@ -141,12 +144,8 @@ struct ContentView: View {
                                     ProgressView("Refreshing", value: loading, total: 8000)
                                 }
                             }
-                            
-                            
                         }
                     }
-                    
-                    
                 }
                 .sheet(isPresented: $isSettingsShowing, content: {
                     SettingsView(cities: $cities, city: $saveCity, loaded: $loading)
@@ -157,35 +156,7 @@ struct ContentView: View {
         } detail: {
             Text("Select an item")
         }
-        //        .onAppear {
-        //            try? modelContext.delete(model: Callee.self)
-        //        }
     }
-    
-    private func addItem() {
-        //#if os(macOS)
-        //        let openPanel = NSOpenPanel()
-        //        openPanel.prompt = "Select"
-        //        openPanel.allowsMultipleSelection = false
-        //        openPanel.canChooseDirectories = true
-        //        openPanel.canCreateDirectories = false
-        //        openPanel.canChooseFiles = false
-        //        if openPanel.runModal() == NSApplication.ModalResponse.OK {
-        //            let result = openPanel.url // Pathname of the selected folder
-        //
-        //            if let result = result {
-        //                let path = result.path
-        //                // Your code here
-        //            }
-        //        }
-        //#endif
-        isShowing = true
-        //        withAnimation {
-        //            let newItem = Item(timestamp: Date())
-        //            modelContext.insert(newItem)
-        //        }
-    }
-    
     
 }
 
