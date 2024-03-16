@@ -85,7 +85,6 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
             }
         }
 
-        context.completeRequest()
     }
 
     private func addOrRemoveIncrementalIdentificationPhoneNumbers(to context: CXCallDirectoryExtensionContext) {

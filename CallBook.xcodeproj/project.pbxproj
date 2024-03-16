@@ -16,6 +16,7 @@
 		0C0B92AA2BA3B2F300E029B3 /* BlondExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0B92A92BA3B2F300E029B3 /* BlondExtensions.swift */; };
 		0C0B92AC2BA4834100E029B3 /* CityPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0B92AB2BA4834100E029B3 /* CityPickerView.swift */; };
 		0C0B92AE2BA489FC00E029B3 /* CallRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0B92AD2BA489FC00E029B3 /* CallRowView.swift */; };
+		0C0B92B42BA6442A00E029B3 /* ConditionalModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0B92B32BA6442A00E029B3 /* ConditionalModifiers.swift */; };
 		0C0F290C2BA0B64D00D67F61 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 0C0F290B2BA0B64D00D67F61 /* SwiftSoup */; };
 		0C0F29102BA0B69E00D67F61 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F290F2BA0B69E00D67F61 /* SearchView.swift */; };
 		0C0F29122BA0B7AC00D67F61 /* LegalAidSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F29112BA0B7AC00D67F61 /* LegalAidSearch.swift */; };
@@ -89,6 +90,7 @@
 		0C0B92AD2BA489FC00E029B3 /* CallRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRowView.swift; sourceTree = "<group>"; };
 		0C0B92AF2BA4B0B600E029B3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		0C0B92B02BA4BBF200E029B3 /* CallBookDirectory.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallBookDirectory.entitlements; sourceTree = "<group>"; };
+		0C0B92B32BA6442A00E029B3 /* ConditionalModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalModifiers.swift; sourceTree = "<group>"; };
 		0C0F290F2BA0B69E00D67F61 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0C0F29112BA0B7AC00D67F61 /* LegalAidSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalAidSearch.swift; sourceTree = "<group>"; };
 		0C0F29132BA0C65A00D67F61 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				0C034E0C2BA1D525002E204B /* SettingsView.swift */,
 				0C0B92AB2BA4834100E029B3 /* CityPickerView.swift */,
 				0C0B92AD2BA489FC00E029B3 /* CallRowView.swift */,
+				0C0B92B32BA6442A00E029B3 /* ConditionalModifiers.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C0B92A72BA3AF4700E029B3 /* CalleeRowView.swift in Sources */,
+				0C0B92B42BA6442A00E029B3 /* ConditionalModifiers.swift in Sources */,
 				0C0B92AE2BA489FC00E029B3 /* CallRowView.swift in Sources */,
 				0C0B92AC2BA4834100E029B3 /* CityPickerView.swift in Sources */,
 				0CFDD47E2B17C8C000C99349 /* ContentView.swift in Sources */,

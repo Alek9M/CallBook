@@ -72,13 +72,15 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             CalleeListView(search: $search, searchScope: $searchScope, city: city, category: category, page: $page, loading: loading, filterByCity: Set(callees.map(\.city)).count > 1)
-            //            Text(" ")
-                .searchable(text: $search)
-                .searchScopes($searchScope) {
-                    ForEach(SearchScope.allCases, id: \.self) { scope in
-                        Text(scope.rawValue.capitalized)
-                            .tag(scope)
-                    }
+                .if(loading == 0 && callees.count > 0) {
+                    $0
+                        .searchable(text: $search)
+                        .searchScopes($searchScope) {
+                            ForEach(SearchScope.allCases, id: \.self) { scope in
+                                Text(scope.rawValue.capitalized)
+                                    .tag(scope)
+                            }
+                        }
                 }
                 .onAppear() {
                     if callees.count == 0 {
@@ -93,15 +95,6 @@ struct ContentView: View {
                         }
                     }
                 }
-            
-            //            .alert("Everything is gonna be deleted. Are you sure you wanna proceed?", isPresented: $showingAlert) {
-            //                Button("Delete all", role: .destructive) { Task {
-            //                    for callee in callees {
-            //                        modelContext.delete(callee)
-            //                    }
-            //                    try? modelContext.save()
-            //                } }
-            //            }
 #if os(macOS)
                 .navigationSplitViewColumnWidth(min: 180, ideal: 200)
 #endif
@@ -119,7 +112,7 @@ struct ContentView: View {
                                     .pickerStyle(.menu)
                                     
                                     if let set = Optional(Set(callees.map(\.city))),
-                                        set.count > 1 {
+                                       set.count > 1 {
                                         Picker("City", selection: $city) {
                                             ForEach(set.sorted(), id: \.self) { city in
                                                 Text(city)
@@ -127,7 +120,7 @@ struct ContentView: View {
                                             }
                                         }
                                         .pickerStyle(.menu)
-        //                                }
+                                        //                                }
                                     }
                                     
                                 }) {
